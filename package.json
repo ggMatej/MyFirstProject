@@ -7,8 +7,22 @@
     "test": "jest"
   },
   "dependencies": {
+    "firebase": "^7.2.3",
+    "grpc": "^1.24.2",
+    "node-pre-gyp": "^0.14.0",
     "react": "16.8.6",
-    "react-native": "0.60.5"
+    "react-native": "0.60.5",
+    "react-native-fbsdk": "^1.0.4",
+    "react-native-firebase": "^5.5.6",
+    "react-native-gesture-handler": "^1.5.0",
+    "react-native-reanimated": "^1.4.0",
+    "react-native-screens": "^1.0.0-alpha.23",
+    "react-navigation": "^4.0.10",
+    "react-navigation-material-bottom-tabs": "^2.1.5",
+    "react-navigation-stack": "^1.10.3",
+    "react-navigation-tabs": "^2.5.6",
+    "tslint": "^6.0.0-beta0",
+    "tslint-react": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.5.0",
@@ -21,6 +35,7 @@
     "babel-jest": "^24.1.0",
     "jest": "^24.1.0",
     "metro-react-native-babel-preset": "0.54.1",
+    "react-native-clean-project": "^3.2.4",
     "react-test-renderer": "16.8.6",
     "typescript": "^3.6.3"
   },
