@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { FirebaseAuth } from '../firebase/firebaseCfg';
 
 export const HomeScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
-  const [user] = useState(FirebaseAuth.currentUser);
+  const user = useSelector(state => state.user);
   return (
     <View style={styles.container}>
       <Text>Welcome {user.email}</Text>

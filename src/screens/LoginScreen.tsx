@@ -3,16 +3,21 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { AccessToken, LoginManager, LoginResult } from 'react-native-fbsdk';
 import firebase from 'firebase';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { FirebaseAuth, FirebaseDatabase } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/app-routes';
+import { loginAction, loginFailedAction } from '../redux/auth';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMsg, setErrorMessage] = useState('');
+
+  const error = useSelector(state => state.error);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -31,7 +36,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
           onChangeText={setPassword}
         />
       </View>
-      <Text style={styles.error}>{errorMessage}</Text>
+      <Text style={styles.error}>{error}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
           <Button color="black" title="Login" onPress={onLogin} />
@@ -61,9 +66,13 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogin() {
-    FirebaseAuth.signInWithEmailAndPassword(email, password).catch(error => {
-      setErrorMessage(error.message);
-    });
+    FirebaseAuth.signInWithEmailAndPassword(email, password)
+      .then(user => {
+        dispatch(loginAction(user.user));
+      })
+      .catch(error => {
+        dispatch(loginFailedAction(error));
+      });
   }
 
   function onForgotPassword() {

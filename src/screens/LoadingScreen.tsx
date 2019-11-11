@@ -12,7 +12,7 @@ export const LoadingScreen: React.FC<NavigationStackScreenProps> = ({
     FirebaseAuth.onAuthStateChanged(user => {
       navigation.navigate(user ? AppRoute.Home : AppRoute.Auth);
     });
-  });
+  }, []);
 
   return (
     <View style={styles.container}>

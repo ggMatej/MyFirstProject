@@ -1,5 +1,16 @@
 import { createAppContainer } from 'react-navigation';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import { MainNavigator } from './navigators';
+import { store } from './redux/store';
 
-export const App = createAppContainer(MainNavigator);
+export const AppContainer = createAppContainer(MainNavigator);
+
+export const App: React.FC = () => {
+  return (
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
+  );
+};
