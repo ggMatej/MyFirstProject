@@ -3,7 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import { MainNavigator } from './navigators';
-import { store } from './redux/store';
+import { store } from './modules/auth/redux/store';
 
 export const AppContainer = createAppContainer(MainNavigator);
 

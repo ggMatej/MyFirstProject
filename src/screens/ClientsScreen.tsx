@@ -1,35 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 import {
-  NavigationTabScreenProps,
-  NavigationBottomTabScreenComponent
-} from 'react-navigation-tabs';
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import {
   NavigationStackScreenComponent,
   NavigationStackScreenProps
 } from 'react-navigation-stack';
-import {
-  NavigationScreenComponent,
-  NavigationScreenProp
-} from 'react-navigation';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { firebaseService } from '../firebase/firebaseCfg';
+import { AuthAction } from '../modules/auth/redux/authActions';
 
-export const ClientScreen: NavigationStackScreenComponent<NavigationStackScreenProps> = ({
+export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
-  const user = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
-      <Text>Welcome!{user.email}</Text>
+      <Text>Welcome!</Text>
       <Button title="Logout" onPress={onLogout} />
     </View>
   );
 
   function onLogout() {
     firebaseService.auth.signOut();
+    dispatch(AuthAction.logOutAction());
   }
 };
 

@@ -1,18 +1,18 @@
 import { createSwitchNavigator } from 'react-navigation';
 
 import { AppRoute } from '../const/appRoutes';
-import { LoadingScreen } from '../screens';
+import { SplashScreen } from '../screens';
 
 import { AuthenticationNavigator } from './AuthenticationNavigator';
 import { HomeTabNavigator } from './HomeTabNavigator';
 
 export const MainNavigator = createSwitchNavigator(
   {
-    Loading: LoadingScreen,
+    Splash: SplashScreen,
     Auth: AuthenticationNavigator,
     HomeTab: HomeTabNavigator
   },
   {
-    initialRouteName: AppRoute.Loading
+    initialRouteName: AppRoute.Splash
   }
 );

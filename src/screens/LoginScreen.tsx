@@ -7,7 +7,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { firebaseService } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/appRoutes';
-import { AuthAction } from '../redux/auth/authActions';
+import { AuthAction } from '../modules/auth/redux/authActions';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation

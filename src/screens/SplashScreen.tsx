@@ -5,7 +5,7 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { firebaseService } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/appRoutes';
 
-export const LoadingScreen: React.FC<NavigationStackScreenProps> = ({
+export const SplashScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   useEffect(() => {

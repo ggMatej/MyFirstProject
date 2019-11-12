@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 
-import { AuthAction } from '../redux/auth/authActions';
+import { AuthAction } from '../modules/auth/redux/authActions';
 import { AppRoute } from '../const/appRoutes';
 import { firebaseService } from '../firebase/firebaseCfg';
 
