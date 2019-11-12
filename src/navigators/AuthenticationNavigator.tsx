@@ -1,6 +1,6 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { AppRoute } from '../const/app-routes';
+import { AppRoute } from '../const/appRoutes';
 import { LoginScreen, RegistrationScreen } from '../screens';
 
 export const AuthenticationNavigator = createStackNavigator(

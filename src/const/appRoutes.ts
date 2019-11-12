@@ -1,9 +1,10 @@
 export enum AppRoute {
   Login = 'Login',
-  Home = 'Home',
+  Clients = 'Clients',
   Registration = 'Registration',
-  About = 'About',
+  Settings = 'Settings',
   HomeTab = 'HomeTab',
   Auth = 'Auth',
-  Loading = 'Loading'
+  Loading = 'Loading',
+  Projects = 'Projects'
 }

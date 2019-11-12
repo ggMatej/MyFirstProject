@@ -1,11 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { AppRoute } from '../const/app-routes';
-export const AboutScreen: React.FC = () => {
+export const SettingsScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text>This is about screen!</Text>
+      <Text>This is settings screen!</Text>
     </View>
   );
 };

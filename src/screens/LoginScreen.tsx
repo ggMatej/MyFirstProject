@@ -5,18 +5,18 @@ import { AccessToken, LoginManager, LoginResult } from 'react-native-fbsdk';
 import firebase from 'firebase';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 
-import { FirebaseAuth, FirebaseDatabase } from '../firebase/firebaseCfg';
-import { AppRoute } from '../const/app-routes';
-import { loginAction, loginFailedAction } from '../redux/auth';
+import { firebaseService } from '../firebase/firebaseCfg';
+import { AppRoute } from '../const/appRoutes';
+import { AuthAction } from '../redux/auth/authActions';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMsg, setErrorMessage] = useState('');
+  const [aerror, setErrorMessage] = useState('');
 
-  const error = useSelector(state => state.error);
+  const authError = useSelector(state => state.error);
   const dispatch = useDispatch();
 
   return (
@@ -36,7 +36,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
           onChangeText={setPassword}
         />
       </View>
-      <Text style={styles.error}>{error}</Text>
+      <Text style={styles.error}>{authError}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
           <Button color="black" title="Login" onPress={onLogin} />
@@ -66,12 +66,13 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogin() {
-    FirebaseAuth.signInWithEmailAndPassword(email, password)
+    firebaseService.auth
+      .signInWithEmailAndPassword(email, password)
       .then(user => {
-        dispatch(loginAction(user.user));
+        dispatch(AuthAction.loginAction(user.user));
       })
       .catch(error => {
-        dispatch(loginFailedAction(error));
+        dispatch(AuthAction.loginFailedAction(error.message));
       });
   }
 
@@ -103,7 +104,8 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
             .auth()
             .signInWithCredential(credidental)
             .then(user => {
-              FirebaseDatabase.collection('profiles')
+              firebaseService.database
+                .collection('profiles')
                 .doc(user.user.uid)
                 .set({
                   email: user.user.email,

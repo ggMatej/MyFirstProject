@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 
-import { FirebaseAuth } from '../firebase/firebaseCfg';
-import { AppRoute } from '../const/app-routes';
+import { firebaseService } from '../firebase/firebaseCfg';
+import { AppRoute } from '../const/appRoutes';
 
 export const LoadingScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   useEffect(() => {
-    FirebaseAuth.onAuthStateChanged(user => {
-      navigation.navigate(user ? AppRoute.Home : AppRoute.Auth);
+    firebaseService.auth.onAuthStateChanged(user => {
+      navigation.navigate(user ? AppRoute.HomeTab : AppRoute.Auth);
     });
   }, []);
 

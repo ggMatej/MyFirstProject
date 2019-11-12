@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { Provider, useSelector, useDispatch } from 'react-redux';
 
-import { AppRoute } from '../const/app-routes';
-import { FirebaseAuth } from '../firebase/firebaseCfg';
-import { FirebaseDatabase } from '../firebase/firebaseCfg';
+import { AuthAction } from '../redux/auth/authActions';
+import { AppRoute } from '../const/appRoutes';
+import { firebaseService } from '../firebase/firebaseCfg';
 
 export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -12,6 +13,8 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -39,9 +42,11 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onRegister() {
-    FirebaseAuth.createUserWithEmailAndPassword(email, password)
+    firebaseService.auth
+      .createUserWithEmailAndPassword(email, password)
       .then(user => {
-        FirebaseDatabase.collection('profiles')
+        firebaseService.database
+          .collection('profiles')
           .doc(user.user.uid)
           .set({
             email: user.user.email,
@@ -50,6 +55,7 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
           .catch(error => {
             setErrorMessage(error.message);
           });
+        dispatch(AuthAction.loginAction(user.user));
       })
       .catch(error => {
         setErrorMessage(error.message);
