@@ -8,6 +8,8 @@ import { Provider, useSelector, useDispatch } from 'react-redux';
 import { firebaseService } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/appRoutes';
 import { AuthAction } from '../modules/auth/redux/authActions';
+import { login } from '../modules/auth/redux/authThunks';
+import { facebookLogin } from '../modules/auth/redux/authThunks';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -66,14 +68,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogin() {
-    firebaseService.auth
-      .signInWithEmailAndPassword(email, password)
-      .then(user => {
-        dispatch(AuthAction.loginAction(user.user));
-      })
-      .catch(error => {
-        dispatch(AuthAction.loginFailedAction(error.message));
-      });
+    login(email, password, dispatch);
   }
 
   function onForgotPassword() {
@@ -81,46 +76,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onFacebookLogin() {
-    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
-      async (result: LoginResult) => {
-        if (result.isCancelled) {
-          setErrorMessage('Action is cancelled!');
-          navigation.navigate(AppRoute.Auth);
-          return;
-        }
-        if (
-          result.declinedPermissions &&
-          result.declinedPermissions.length > 0
-        ) {
-          setErrorMessage('Permissions are not ok!');
-          return;
-        }
-
-        AccessToken.getCurrentAccessToken().then(async (token: AccessToken) => {
-          const credidental = firebase.auth.FacebookAuthProvider.credential(
-            token
-          );
-          firebase
-            .auth()
-            .signInWithCredential(credidental)
-            .then(user => {
-              firebaseService.database
-                .collection('profiles')
-                .doc(user.user.uid)
-                .set({
-                  email: user.user.email,
-                  uid: user.user.uid
-                })
-                .catch(error => {
-                  setErrorMessage(error.message);
-                });
-            });
-        });
-      },
-      (error: any) => {
-        setErrorMessage(error);
-      }
-    );
+    facebookLogin(dispatch);
   }
 };
 

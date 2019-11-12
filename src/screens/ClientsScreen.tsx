@@ -8,6 +8,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { firebaseService } from '../firebase/firebaseCfg';
 import { AuthAction } from '../modules/auth/redux/authActions';
+import { logout } from '../modules/auth/redux/authThunks';
 
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -22,8 +23,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onLogout() {
-    firebaseService.auth.signOut();
-    dispatch(AuthAction.logOutAction());
+    logout(dispatch);
   }
 };
 
