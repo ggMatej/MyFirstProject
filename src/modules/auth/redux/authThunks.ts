@@ -1,23 +1,17 @@
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import { Dispatch } from 'react';
-import { AccessToken, LoginManager, LoginResult } from 'react-native-fbsdk';
 import firebase from 'firebase';
+import { AccessToken, LoginManager, LoginResult } from 'react-native-fbsdk';
+import { Dispatch } from 'redux';
 
 import { firebaseService } from '../../../firebase/firebaseCfg';
 
-import { AuthType } from './authType';
 import { AuthAction } from './authActions';
 
 export function logout(dispatch: Dispatch<any>) {
   firebaseService.auth.signOut();
-  dispatch(AuthAction.logOutAction());
+  // dispatch(AuthAction.logOutAction());
 }
 
-export function login(
-  email: string,
-  password: string,
-  dispatch: Dispatch<any>
-) {
+export function login(email: string, password: string, dispatch: Dispatch) {
   firebaseService.auth
     .signInWithEmailAndPassword(email, password)
     .then(user => {
@@ -28,11 +22,7 @@ export function login(
     });
 }
 
-export function register(
-  email: string,
-  password: string,
-  dispatch: Dispatch<any>
-) {
+export function register(email: string, password: string, dispatch: Dispatch) {
   firebaseService.auth
     .createUserWithEmailAndPassword(email, password)
     .then(user => {
@@ -53,7 +43,7 @@ export function register(
     });
 }
 
-export function facebookLogin(dispatch: Dispatch<any>) {
+export function facebookLogin(dispatch: Dispatch) {
   LoginManager.logInWithPermissions(['public_profile', 'email']).then(
     async (result: LoginResult) => {
       if (result.isCancelled) {

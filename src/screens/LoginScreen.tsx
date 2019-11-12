@@ -16,7 +16,6 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
 }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [aerror, setErrorMessage] = useState('');
 
   const authError = useSelector(state => state.error);
   const dispatch = useDispatch();
