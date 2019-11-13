@@ -6,5 +6,7 @@ export enum AppRoute {
   HomeTab = 'HomeTab',
   Auth = 'Auth',
   Splash = 'Splash',
-  Projects = 'Projects'
+  Projects = 'Projects',
+  AddClient = 'AddClient',
+  HomeStack = 'HomeStack'
 }

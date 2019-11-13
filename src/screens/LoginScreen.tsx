@@ -10,6 +10,7 @@ import { AppRoute } from '../const/appRoutes';
 import { AuthAction } from '../modules/auth/redux/authActions';
 import { login } from '../modules/auth/redux/authThunks';
 import { facebookLogin } from '../modules/auth/redux/authThunks';
+import { ApplicationState } from '../modules/ApplicationState';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -17,7 +18,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const authError = useSelector(state => state.error);
+  const authError = useSelector((state: ApplicationState) => state.auth.error);
   const dispatch = useDispatch();
 
   return (

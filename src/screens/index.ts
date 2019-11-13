@@ -4,3 +4,4 @@ export * from './ClientsScreen';
 export * from './SettingsScreen';
 export * from './SplashScreen';
 export * from './ProjectsScreen';
+export * from './AddClientScreen';

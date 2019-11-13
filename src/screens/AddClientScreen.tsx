@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { Provider, useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { register } from '../modules/auth/redux/authThunks';
-import { ApplicationState } from '../modules/ApplicationState';
+import { addClient } from '../modules/user/redux/userThunks';
+import { Client } from '../model/Client';
 
-export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
+export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
-  const error = useSelector((state: ApplicationState) => state.auth.error);
-
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
+          keyboardType="email-address"
           value={email}
           placeholder="Email"
           style={styles.input}
@@ -26,22 +26,26 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
         />
         <TextInput
           style={styles.input}
-          value={password}
-          placeholder="Password"
-          onChangeText={setPassword}
+          value={name}
+          placeholder="name"
+          onChangeText={setName}
         />
       </View>
       <Text style={styles.error}>{error}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
-          <Button color="black" title="Register" onPress={onRegister} />
+          <Button color="black" title="Add client" onPress={onAddClient} />
         </View>
       </View>
     </View>
   );
 
-  function onRegister() {
-    register(email, password, dispatch);
+  function onAddClient() {
+    if (email === '' || name === '') {
+      setError('Empty field(s)');
+    } else {
+      addClient(new Client(name, email), dispatch);
+    }
   }
 };
 
@@ -70,6 +74,10 @@ const styles = StyleSheet.create({
   inputView: {
     width: '70%',
     margin: 10
+  },
+  text: {
+    color: 'black',
+    margin: 5
   },
   error: {
     color: 'red',

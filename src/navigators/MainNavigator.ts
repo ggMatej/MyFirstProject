@@ -4,13 +4,13 @@ import { AppRoute } from '../const/appRoutes';
 import { SplashScreen } from '../screens';
 
 import { AuthenticationNavigator } from './AuthenticationNavigator';
-import { HomeTabNavigator } from './HomeTabNavigator';
+import { HomeStackNavigator } from './HomeStackNavigator';
 
 export const MainNavigator = createSwitchNavigator(
   {
     Splash: SplashScreen,
     Auth: AuthenticationNavigator,
-    HomeTab: HomeTabNavigator
+    HomeStack: HomeStackNavigator
   },
   {
     initialRouteName: AppRoute.Splash
