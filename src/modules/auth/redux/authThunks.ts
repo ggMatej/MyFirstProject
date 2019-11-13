@@ -8,7 +8,7 @@ import { AuthAction } from './authActions';
 
 export function logout(dispatch: Dispatch<any>) {
   firebaseService.auth.signOut();
-  // dispatch(AuthAction.logOutAction());
+  dispatch(AuthAction.logOutAction());
 }
 
 export function login(email: string, password: string, dispatch: Dispatch) {

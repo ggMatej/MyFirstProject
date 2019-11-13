@@ -8,7 +8,7 @@ import { Provider, useSelector, useDispatch } from 'react-redux';
 import { firebaseService } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/appRoutes';
 import { AuthAction } from '../modules/auth/redux/authActions';
-import { login } from '../modules/auth/redux/authThunks';
+import { login, logout } from '../modules/auth/redux/authThunks';
 import { facebookLogin } from '../modules/auth/redux/authThunks';
 import { ApplicationState } from '../modules/ApplicationState';
 
@@ -64,6 +64,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onRegister() {
+    logout(dispatch);
     navigation.navigate(AppRoute.Registration);
   }
 

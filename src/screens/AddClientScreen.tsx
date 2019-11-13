@@ -3,8 +3,9 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
 
-import { addClient } from '../modules/user/redux/userThunks';
+import { addClient } from '../modules/client/redux/clientThunks';
 import { Client } from '../model/Client';
+import { AppRoute } from '../const/appRoutes';
 
 export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -45,6 +46,7 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
       setError('Empty field(s)');
     } else {
       addClient(new Client(name, email), dispatch);
+      navigation.navigate(AppRoute.Clients);
     }
   }
 };

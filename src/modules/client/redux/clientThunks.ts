@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { firebaseService } from '../../../firebase/firebaseCfg';
 import { Client } from '../../../model/Client';
 
-import { UserAction } from './userActions';
+import { ClientAction } from './clientActions';
 
 export function addClient(client: Client, dispatch: Dispatch) {
   firebaseService.database
@@ -11,7 +11,7 @@ export function addClient(client: Client, dispatch: Dispatch) {
     .add(Object.assign({}, client))
 
     .then(doc => {
-      dispatch(UserAction.addClientAction(client));
+      dispatch(ClientAction.addClientAction(client));
     });
 }
 
@@ -25,6 +25,6 @@ export function getClients(dispatch: Dispatch) {
         ...(doc.data() as any)
       }));
 
-      dispatch(UserAction.getClientsAction(clients));
+      dispatch(ClientAction.getClientsAction(clients));
     });
 }

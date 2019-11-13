@@ -1,25 +1,25 @@
 import { Client } from '../../../model/Client';
 
-import { UserType } from './userType';
-import { UserAction } from './userActions';
+import { ClientType } from './clientType';
+import { ClientAction } from './clientActions';
 
-export interface UserState {
+export interface ClientState {
   clients?: Client[];
 }
 
-const INITIAL_STATE: UserState = {
+const INITIAL_STATE: ClientState = {
   clients: []
 };
 
 // Reducer
-export const userReducer = (state = INITIAL_STATE, action: UserAction) => {
+export const clientReducer = (state = INITIAL_STATE, action: ClientAction) => {
   switch (action.type) {
-    case UserType.AddClient:
+    case ClientType.AddClient:
       return {
         ...state,
         clients: [...state.clients, action.payload.client]
       };
-    case UserType.GetClients:
+    case ClientType.GetClients:
       return {
         ...state,
         clients: action.payload.clients

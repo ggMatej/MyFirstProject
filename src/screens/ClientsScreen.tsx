@@ -5,28 +5,27 @@ import {
   View,
   Button,
   FlatList,
-  ListRenderItem,
   ListRenderItemInfo
 } from 'react-native';
-import {
-  NavigationStackScreenComponent,
-  NavigationStackScreenProps
-} from 'react-navigation-stack';
-import { Provider, useSelector, useDispatch } from 'react-redux';
-import { SafeAreaView } from 'react-native';
+import { NavigationStackScreenProps } from 'react-navigation-stack';
+import { useSelector, useDispatch } from 'react-redux';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { ApplicationState } from '../modules/ApplicationState';
 import { logout } from '../modules/auth/redux/authThunks';
-import { getClients } from '../modules/user/redux/userThunks';
+import { getClients } from '../modules/client/redux/clientThunks';
 import { AppRoute } from '../const/appRoutes';
 import { Client } from '../model/Client';
 
-const ClientItem = ({ name, email }) => {
+const ClientItem = ({ client, onPress }) => {
+  const { name, email, id } = client;
   return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{name}</Text>
-      <Text style={styles.title}>{email}</Text>
-    </View>
+    <TouchableOpacity onPress={onPress.bind(null, id)}>
+      <View style={styles.item}>
+        <Text style={styles.title}>{name}</Text>
+        <Text style={styles.title}>{email}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -34,7 +33,9 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
   const dispatch = useDispatch();
-  const clients = useSelector((state: ApplicationState) => state.user.clients);
+  const clients = useSelector(
+    (state: ApplicationState) => state.client.clients
+  );
 
   useEffect(() => {
     getClients(dispatch);
@@ -42,13 +43,11 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.flatlist}>
-        <FlatList
-          data={clients}
-          renderItem={renderListItem}
-          keyExtractor={renderKey}
-        />
-      </SafeAreaView>
+      <FlatList
+        data={clients}
+        renderItem={renderListItem}
+        keyExtractor={renderKey}
+      />
 
       <View style={styles.buttonView}>
         <View style={styles.button}>
@@ -60,12 +59,13 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
       </View>
     </View>
   );
-  function renderKey(item: Client) {
-    return item.id;
+
+  function renderKey(client: Client) {
+    return client.id;
   }
 
   function renderListItem(item: ListRenderItemInfo<Client>) {
-    return <ClientItem name={item.item.name} email={item.item.email} />;
+    return <ClientItem client={item.item} onPress={onSelect} />;
   }
 
   function onAddClient() {
@@ -74,6 +74,10 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
 
   function onLogout() {
     logout(dispatch);
+  }
+
+  function onSelect(id: string) {
+    alert(id);
   }
 };
 
@@ -117,10 +121,10 @@ const styles = StyleSheet.create({
   item: {
     backgroundColor: '#cccccc',
     padding: 5,
-    marginVertical: 5
+    marginVertical: 5,
+    width: 300
   },
   title: {
-    fontSize: 32
-  },
-  flatlist: {}
+    fontSize: 25
+  }
 });

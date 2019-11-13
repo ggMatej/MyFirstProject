@@ -1,11 +1,11 @@
 import { Client } from '../../../model/Client';
 
-import { UserType } from './userType';
+import { ClientType } from './clientType';
 
-export const UserAction = {
+export const ClientAction = {
   addClientAction(client: Client) {
     return {
-      type: UserType.AddClient,
+      type: ClientType.AddClient,
       payload: {
         client
       }
@@ -14,7 +14,7 @@ export const UserAction = {
 
   getClientsAction(clients: Client[]) {
     return {
-      type: UserType.GetClients,
+      type: ClientType.GetClients,
       payload: {
         clients
       }
@@ -22,4 +22,6 @@ export const UserAction = {
   }
 };
 
-export type UserAction = ReturnType<typeof UserAction[keyof typeof UserAction]>;
+export type ClientAction = ReturnType<
+  typeof ClientAction[keyof typeof ClientAction]
+>;

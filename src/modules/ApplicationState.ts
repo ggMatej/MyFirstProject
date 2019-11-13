@@ -1,7 +1,7 @@
-import { UserState } from '../modules/user/redux/userReducer';
 import { AuthState } from '../modules/auth/redux/authReducer';
+import { ClientState } from '../modules/client/redux/clientReducer';
 
 export interface ApplicationState {
-  user: UserState;
+  client: ClientState;
   auth: AuthState;
 }
