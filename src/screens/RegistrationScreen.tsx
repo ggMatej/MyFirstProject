@@ -4,7 +4,7 @@ import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Provider, useSelector, useDispatch } from 'react-redux';
 
 import { register } from '../modules/auth/redux/authThunks';
-import { ApplicationState } from '../modules/ApplicationState';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
 
 export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -41,7 +41,7 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onRegister() {
-    register(email, password, dispatch);
+    dispatch(register(email, password));
   }
 };
 

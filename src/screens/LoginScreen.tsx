@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { AccessToken, LoginManager, LoginResult } from 'react-native-fbsdk';
-import firebase from 'firebase';
-import { Provider, useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { firebaseService } from '../firebase/firebaseCfg';
 import { AppRoute } from '../const/appRoutes';
-import { AuthAction } from '../modules/auth/redux/authActions';
 import { login, logout } from '../modules/auth/redux/authThunks';
 import { facebookLogin } from '../modules/auth/redux/authThunks';
-import { ApplicationState } from '../modules/ApplicationState';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -64,12 +60,12 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onRegister() {
-    logout(dispatch);
+    dispatch(logout());
     navigation.navigate(AppRoute.Registration);
   }
 
   function onLogin() {
-    login(email, password, dispatch);
+    dispatch(login(email, password));
   }
 
   function onForgotPassword() {
@@ -77,7 +73,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onFacebookLogin() {
-    facebookLogin(dispatch);
+    dispatch(facebookLogin());
   }
 };
 

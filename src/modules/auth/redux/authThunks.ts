@@ -6,23 +6,30 @@ import { firebaseService } from '../../../firebase/firebaseCfg';
 
 import { AuthAction } from './authActions';
 
-export function logout(dispatch: Dispatch<any>) {
+export const logout = () => async (dispatch: Dispatch) => {
+  dispatch(AuthAction.loading());
   firebaseService.auth.signOut();
-  dispatch(AuthAction.logOutAction());
-}
+  dispatch(AuthAction.logout());
+};
 
-export function login(email: string, password: string, dispatch: Dispatch) {
+export const login = (email: string, password: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(AuthAction.loading());
   firebaseService.auth
     .signInWithEmailAndPassword(email, password)
     .then(user => {
-      dispatch(AuthAction.loginAction(user.user));
+      dispatch(AuthAction.loginSuccess(user.user));
     })
     .catch(error => {
-      dispatch(AuthAction.loginFailedAction(error.message));
+      dispatch(AuthAction.loginError(error.message));
     });
-}
+};
 
-export function register(email: string, password: string, dispatch: Dispatch) {
+export const register = (email: string, password: string) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(AuthAction.loading());
   firebaseService.auth
     .createUserWithEmailAndPassword(email, password)
     .then(user => {
@@ -34,21 +41,22 @@ export function register(email: string, password: string, dispatch: Dispatch) {
           uid: user.user.uid
         })
         .catch(error => {
-          dispatch(AuthAction.loginFailedAction(error.message));
+          dispatch(AuthAction.loginError(error.message));
         });
-      dispatch(AuthAction.loginAction(user.user));
+      dispatch(AuthAction.loginSuccess(user.user));
     })
     .catch(error => {
-      dispatch(AuthAction.loginFailedAction(error.message));
+      dispatch(AuthAction.loginError(error.message));
     });
-}
+};
 
-export function facebookLogin(dispatch: Dispatch) {
+export const facebookLogin = () => (dispatch: Dispatch) => {
+  dispatch(AuthAction.loading());
   LoginManager.logInWithPermissions(['public_profile', 'email']).then(
     async (result: LoginResult) => {
       if (result.isCancelled) {
         dispatch(
-          AuthAction.loginFailedAction(
+          AuthAction.loginError(
             ('Login with Facebook canceled!' as unknown) as firebase.auth.AuthError
           )
         );
@@ -56,7 +64,7 @@ export function facebookLogin(dispatch: Dispatch) {
       }
       if (result.declinedPermissions && result.declinedPermissions.length > 0) {
         dispatch(
-          AuthAction.loginFailedAction(
+          AuthAction.loginError(
             ("You don't have permissions!" as unknown) as firebase.auth.AuthError
           )
         );
@@ -79,13 +87,13 @@ export function facebookLogin(dispatch: Dispatch) {
                 uid: user.user.uid
               })
               .catch(error => {
-                dispatch(AuthAction.loginFailedAction(error));
+                dispatch(AuthAction.loginError(error.message));
               });
           });
       });
     },
     (error: any) => {
-      dispatch(AuthAction.loginFailedAction(error));
+      dispatch(AuthAction.loginError(error.message));
     }
   );
-}
+};

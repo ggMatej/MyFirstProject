@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useIsFocused, useFocusEffect } from 'react-navigation-hooks';
 import {
   StyleSheet,
   Text,
@@ -9,37 +10,29 @@ import {
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { ApplicationState } from '../modules/ApplicationState';
 import { logout } from '../modules/auth/redux/authThunks';
 import { getClients } from '../modules/client/redux/clientThunks';
 import { AppRoute } from '../const/appRoutes';
 import { Client } from '../model/Client';
-
-const ClientItem = ({ client, onPress }) => {
-  const { name, email, id } = client;
-  return (
-    <TouchableOpacity onPress={onPress.bind(null, id)}>
-      <View style={styles.item}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.title}>{email}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
+import { ClientItem } from '../modules/client/components/clientItem';
+import { getProjects } from '../modules/projects/redux/projectThunks';
 
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
-  const dispatch = useDispatch();
   const clients = useSelector(
     (state: ApplicationState) => state.client.clients
   );
 
+  const isFocused = useIsFocused();
+  const dispatch = useDispatch();
   useEffect(() => {
-    getClients(dispatch);
-  }, []);
+    if (!clients.length && isFocused) {
+      dispatch(getClients());
+    }
+  }, [clients, dispatch, isFocused]);
 
   return (
     <View style={styles.container}>
@@ -48,7 +41,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
         renderItem={renderListItem}
         keyExtractor={renderKey}
       />
-
+      <Text>{clients.length}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
           <Button title="Add client" onPress={onAddClient} />
@@ -65,7 +58,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function renderListItem(item: ListRenderItemInfo<Client>) {
-    return <ClientItem client={item.item} onPress={onSelect} />;
+    return <ClientItem client={item.item} onPress={onClientItemSelect} />;
   }
 
   function onAddClient() {
@@ -73,11 +66,11 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogout() {
-    logout(dispatch);
+    dispatch(logout());
   }
 
-  function onSelect(id: string) {
-    alert(id);
+  function onClientItemSelect(client: Client) {
+    navigation.navigate(AppRoute.ClientProjects, { client });
   }
 };
 

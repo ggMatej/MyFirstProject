@@ -1,4 +1,6 @@
 export enum ClientType {
-  AddClient = 'ADD_CLIENT',
-  GetClients = 'GET_CLIENTS'
+  ChangeClients = 'clients/CHANGE',
+  AddClient = 'clients/ADD',
+  GetAllClients = 'clients/GET_ALL',
+  Error = 'clients/ERROR'
 }

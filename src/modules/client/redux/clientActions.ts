@@ -1,27 +1,18 @@
 import { Client } from '../../../model/Client';
+import { ActionUnion } from '../../store/models/ActionUnion';
+import { createAction } from '../../store/helpers/createAction';
 
 import { ClientType } from './clientType';
 
 export const ClientAction = {
-  addClientAction(client: Client) {
-    return {
-      type: ClientType.AddClient,
-      payload: {
-        client
-      }
-    };
-  },
+  change: () => createAction(ClientType.ChangeClients),
 
-  getClientsAction(clients: Client[]) {
-    return {
-      type: ClientType.GetClients,
-      payload: {
-        clients
-      }
-    };
-  }
+  add: (client: Client) => createAction(ClientType.AddClient, { client }),
+
+  getAll: (clients: Client[]) =>
+    createAction(ClientType.GetAllClients, { clients }),
+
+  error: (error: string) => createAction(ClientType.Error, { error })
 };
 
-export type ClientAction = ReturnType<
-  typeof ClientAction[keyof typeof ClientAction]
->;
+export type ClientAction = ActionUnion<typeof ClientAction>;

@@ -1,5 +1,6 @@
 export enum AuthType {
-  LoginSuccess = 'LOGIN_SUCCESS',
-  LoginError = 'LOGIN_FAILED',
-  Logout = 'LOGOUT'
+  LoginSuccess = 'auth/SUCCESS',
+  LoginError = 'auth/ERROR',
+  Logout = 'auth/LOGOUT',
+  Loading = 'auth/LOADING'
 }

@@ -5,26 +5,27 @@ import { Client } from '../../../model/Client';
 
 import { ClientAction } from './clientActions';
 
-export function addClient(client: Client, dispatch: Dispatch) {
+export const addClient = (client: Client) => async (dispatch: Dispatch) => {
   firebaseService.database
     .collection('clients')
-    .add(Object.assign({}, client))
-
-    .then(doc => {
-      dispatch(ClientAction.addClientAction(client));
+    .add(client)
+    .then(() => {
+      dispatch(ClientAction.add(client));
     });
-}
+};
 
-export function getClients(dispatch: Dispatch) {
+export const getClients = () => async (dispatch: Dispatch) => {
+  dispatch(ClientAction.change());
   firebaseService.database
     .collection('clients')
     .get()
     .then(querySnapshot => {
       const clients: Client[] = querySnapshot.docs.map(doc => ({
         id: doc.id,
-        ...(doc.data() as any)
+        ...(doc.data() as Client)
       }));
 
-      dispatch(ClientAction.getClientsAction(clients));
-    });
-}
+      dispatch(ClientAction.getAll(clients));
+    })
+    .catch(err => dispatch(ClientAction.error(err)));
+};
