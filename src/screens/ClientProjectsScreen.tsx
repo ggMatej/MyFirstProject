@@ -7,7 +7,7 @@ import { useIsFocused, useFocusEffect } from 'react-navigation-hooks';
 
 import { getProjects } from '../modules/projects/redux/projectThunks';
 import { Client } from '../model/Client';
-import { ApplicationState } from '../modules/ApplicationState';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
 import { Project } from '../model/Project';
 import { ProjectItem } from '../modules/projects/components/projectItem';
 
@@ -16,6 +16,10 @@ export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
 }) => {
   const dispatch = useDispatch();
   const client: Client = navigation.getParam('client');
+
+  const clients = useSelector(
+    (state: ApplicationState) => state.client.clients
+  );
 
   const projects = useSelector(
     (state: ApplicationState) => state.project.projects
@@ -33,6 +37,7 @@ export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
         renderItem={renderListItem}
         keyExtractor={renderKey}
       />
+      <Text>{clients.length}</Text>
     </View>
   );
   function renderListItem(item: ListRenderItemInfo<Project>) {

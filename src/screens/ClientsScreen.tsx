@@ -1,23 +1,21 @@
-import React, { useEffect, useCallback } from 'react';
-import { useIsFocused, useFocusEffect } from 'react-navigation-hooks';
+import React, { useEffect } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
   Button,
   FlatList,
-  ListRenderItemInfo
+  ListRenderItemInfo,
+  StyleSheet,
+  Text,
+  View
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { useSelector, useDispatch } from 'react-redux';
-
-import { ApplicationState } from '../modules/ApplicationState';
-import { logout } from '../modules/auth/redux/authThunks';
-import { getClients } from '../modules/client/redux/clientThunks';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppRoute } from '../const/appRoutes';
 import { Client } from '../model/Client';
+import { logout } from '../modules/auth/redux/authThunks';
 import { ClientItem } from '../modules/client/components/clientItem';
-import { getProjects } from '../modules/projects/redux/projectThunks';
+import { getClients } from '../modules/client/redux/clientThunks';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
+import { useIsFocused } from 'react-navigation-hooks';
 
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -29,8 +27,9 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!clients.length && isFocused) {
+    if (isFocused && !clients.length) {
       dispatch(getClients());
+      console.log('Clients length use effect: ', clients.length);
     }
   }, [clients, dispatch, isFocused]);
 

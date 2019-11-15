@@ -1,5 +1,8 @@
 export enum AppRoute {
   Login = 'Login',
+  ProjectStack = 'ProjectStack',
+  ClientStack = 'ClientStack',
+  SettingStack = 'SettingStack',
   Clients = 'Clients',
   Registration = 'Registration',
   Settings = 'Settings',

@@ -1,22 +1,18 @@
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import { AppRoute } from '../const/appRoutes';
-import { ClientScreen, SettingsScreen, ProjectsScreen } from '../screens';
+
+import { ClientStackNavigator } from './ClientStackNavigator';
+import { ProjectStackNavigator } from './ProjectStackNavigator';
+import { SettingStackNavigator } from './SettingStackNavigator';
 
 export const HomeTabNavigator = createBottomTabNavigator(
   {
-    Clients: {
-      screen: ClientScreen
-    },
-    Project: {
-      screen: ProjectsScreen
-    },
-
-    Settings: {
-      screen: SettingsScreen
-    }
+    ClientStack: ClientStackNavigator,
+    ProjectStack: ProjectStackNavigator,
+    SettingStack: SettingStackNavigator
   },
   {
-    initialRouteName: AppRoute.Clients
+    initialRouteName: AppRoute.ClientStack
   }
 );

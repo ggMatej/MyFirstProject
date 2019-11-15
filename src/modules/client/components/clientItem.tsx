@@ -12,13 +12,17 @@ export const ClientItem: React.FC<Props> = ({ client, onPress }) => {
   const { id, name, email } = client;
 
   return (
-    <TouchableOpacity onPress={onPress.bind(null, client)}>
+    <TouchableOpacity onPress={handleOnPress}>
       <View style={styles.item}>
         <Text style={styles.title}>{name}</Text>
         <Text style={styles.title}>{email}</Text>
       </View>
     </TouchableOpacity>
   );
+
+  function handleOnPress() {
+    onPress(client);
+  }
 };
 
 const styles = StyleSheet.create({

@@ -10,7 +10,7 @@ export const SplashScreen: React.FC<NavigationStackScreenProps> = ({
 }) => {
   useEffect(() => {
     firebaseService.auth.onAuthStateChanged(user => {
-      navigation.navigate(user ? AppRoute.HomeStack : AppRoute.Auth);
+      navigation.navigate(user ? AppRoute.HomeTab : AppRoute.Auth);
     });
   }, []);
 
