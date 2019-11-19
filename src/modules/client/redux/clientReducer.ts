@@ -1,4 +1,5 @@
 import { Client } from '../../../model/Client';
+import { Project } from '../../../model/Project';
 
 import { ClientType } from './clientType';
 import { ClientAction } from './clientActions';
@@ -6,12 +7,14 @@ import { ClientAction } from './clientActions';
 export interface ClientState {
   isChanging: boolean;
   clients: Client[];
+  projects: Project[];
   error: string;
 }
 
 const INITIAL_STATE: ClientState = {
   isChanging: false,
   clients: [],
+  projects: [],
   error: ''
 };
 
@@ -36,6 +39,12 @@ export const clientReducer = (
         ...state,
         isChanging: false,
         clients: action.payload.clients
+      };
+    case ClientType.GetClientProjects:
+      return {
+        ...state,
+        isChanging: false,
+        projects: action.payload.projects
       };
     case ClientType.Error:
       return {

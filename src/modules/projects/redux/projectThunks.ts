@@ -1,31 +1,33 @@
 import { Dispatch } from 'redux';
+import { firestore } from 'firebase';
 
 import { firebaseService } from '../../../firebase/firebaseCfg';
 import { Project } from '../../../model/Project';
 
 import { ProjectAction } from './projectActions';
 
-export const addProject = (project: Project, id: string) => async (
+export const addProject = (project: Project, clientId: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(ProjectAction.change());
-
   firebaseService.database
-    .collection('clients')
-    .doc(id)
     .collection('projects')
     .add(Object.assign({}, project))
-
     .then(doc => {
       dispatch(ProjectAction.add(project));
-    });
+      firebaseService.database
+        .collection('clients')
+        .doc(clientId)
+        .update({
+          projects: firestore.FieldValue.arrayUnion(doc.id)
+        });
+    })
+    .catch(error => console.log(error.message));
 };
 
-export const getProjects = (id: string) => async (dispatch: Dispatch) => {
+export const getProjects = () => async (dispatch: Dispatch) => {
   dispatch(ProjectAction.change());
   firebaseService.database
-    .collection('clients')
-    .doc(id)
     .collection('projects')
     .get()
     .then(querySnapshot => {

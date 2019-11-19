@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, FlatList, ListRenderItemInfo } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  ListRenderItemInfo,
+  Button
+} from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { View } from 'react-native';
 import { useIsFocused, useFocusEffect } from 'react-navigation-hooks';
 
-import { getProjects } from '../modules/projects/redux/projectThunks';
+import { getClientProjects } from '../modules/client/redux/clientThunks';
 import { Client } from '../model/Client';
 import { ApplicationState } from '../modules/store/models/ApplicationState';
 import { Project } from '../model/Project';
 import { ProjectItem } from '../modules/projects/components/projectItem';
+import { AppRoute } from '../const/appRoutes';
 
 export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -22,12 +29,19 @@ export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   const projects = useSelector(
-    (state: ApplicationState) => state.project.projects
+    (state: ApplicationState) => state.client.projects
   );
 
   useEffect(() => {
-    dispatch(getProjects(client.id));
-  }, []);
+    if (client.projects !== undefined) {
+      console.log('KLIJENT ID', client.id, client.projects);
+      dispatch(getClientProjects(client.projects));
+    } else {
+      console.log('KLIJENT ID ELSE', client.id, client.projects);
+      client.projects = [];
+      dispatch(getClientProjects(client.projects));
+    }
+  }, [projects]);
 
   return (
     <View style={styles.container}>
@@ -37,6 +51,9 @@ export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
         renderItem={renderListItem}
         keyExtractor={renderKey}
       />
+      <View style={styles.button}>
+        <Button title="Add project" onPress={onAddProject} />
+      </View>
       <Text>{clients.length}</Text>
     </View>
   );
@@ -50,6 +67,10 @@ export const ClientProjectsScreen: React.FC<NavigationStackScreenProps> = ({
 
   function onProjectPress(project: Project) {
     alert(project.title);
+  }
+
+  function onAddProject() {
+    navigation.navigate(AppRoute.AddProject, { client });
   }
 };
 

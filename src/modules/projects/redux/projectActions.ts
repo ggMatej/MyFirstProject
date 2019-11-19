@@ -6,7 +6,7 @@ import { ProjectType } from './projectType';
 export const ProjectAction = {
   add: (project: Project) => createAction(ProjectType.AddProject, { project }),
   getAll: (projects: Project[]) =>
-    createAction(ProjectType.GetAllClientProjects, { projects }),
+    createAction(ProjectType.GetAllProjects, { projects }),
   change: () => createAction(ProjectType.ChangeProject)
 };
 

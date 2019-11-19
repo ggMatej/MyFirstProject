@@ -1,52 +1,60 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { addClient } from '../modules/client/redux/clientThunks';
 import { Client } from '../model/Client';
 import { AppRoute } from '../const/appRoutes';
+import { Project } from '../model/Project';
+import { addProject } from '../modules/projects/redux/projectThunks';
+import { firebaseService } from '../firebase/firebaseCfg';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
 
-export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
+export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [error, setError] = useState('');
+  const clients = useSelector(
+    (state: ApplicationState) => state.client.clients
+  );
+
+  const client: Client = navigation.getParam('client');
 
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
-          keyboardType="email-address"
-          value={email}
-          placeholder="Email"
+          value={title}
+          placeholder="Project title"
           style={styles.input}
-          onChangeText={setEmail}
+          onChangeText={setTitle}
         />
         <TextInput
           style={styles.input}
-          value={name}
-          placeholder="name"
-          onChangeText={setName}
+          value={description}
+          placeholder="Project description"
+          onChangeText={setDescription}
         />
       </View>
-      <Text style={styles.error}>{error}</Text>
+      <Text style={styles.error}>{clients.length}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
-          <Button color="black" title="Add client" onPress={onAddClient} />
+          <Button color="black" title="Add project" onPress={onAddProject} />
         </View>
       </View>
     </View>
   );
 
-  function onAddClient() {
-    if (email === '' || name === '') {
+  function onAddProject() {
+    if (title === '' || description === '') {
       setError('Empty field(s)');
     } else {
-      dispatch(addClient(new Client(name, email)));
-      navigation.navigate(AppRoute.Clients);
+      dispatch(addProject(new Project(title, description), client.id));
+      navigation.navigate(AppRoute.ClientProjects);
     }
   }
 };

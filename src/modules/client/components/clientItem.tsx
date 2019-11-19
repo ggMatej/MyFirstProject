@@ -9,7 +9,7 @@ interface Props {
 }
 
 export const ClientItem: React.FC<Props> = ({ client, onPress }) => {
-  const { id, name, email } = client;
+  const { name, email } = client;
 
   return (
     <TouchableOpacity onPress={handleOnPress}>

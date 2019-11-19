@@ -25,7 +25,7 @@ export const projectReducer = (
         projects: [...state.projects, action.payload.project],
         isChanging: false
       };
-    case ProjectType.GetAllClientProjects:
+    case ProjectType.GetAllProjects:
       return {
         ...state,
         projects: action.payload.projects,

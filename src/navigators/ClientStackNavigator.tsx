@@ -4,7 +4,8 @@ import { AppRoute } from '../const/appRoutes';
 import {
   ClientScreen,
   ClientProjectsScreen,
-  AddClientScreen
+  AddClientScreen,
+  AddProjectScreen
 } from '../screens';
 
 export const ClientStackNavigator = createStackNavigator(
@@ -17,6 +18,9 @@ export const ClientStackNavigator = createStackNavigator(
     },
     ClientProjects: {
       screen: ClientProjectsScreen
+    },
+    AddProject: {
+      screen: AddProjectScreen
     }
   },
   {

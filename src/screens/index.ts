@@ -6,3 +6,4 @@ export * from './ProjectsScreen';
 export * from './AddClientScreen';
 export * from './ClientProjectsScreen';
 export * from './ClientsScreen';
+export * from './AddProjectScreen';

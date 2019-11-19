@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
 import { AppRoute } from '../const/appRoutes';
-import { ProjectsScreen } from '../screens';
+import { ProjectsScreen, AddProjectScreen } from '../screens';
 
 export const ProjectStackNavigator = createStackNavigator(
   {

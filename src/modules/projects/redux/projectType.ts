@@ -1,5 +1,5 @@
 export enum ProjectType {
   AddProject = 'project/ADD',
-  GetAllClientProjects = 'project/GET_ALL_CLIENT',
+  GetAllProjects = 'project/GET_ALL_PROJECTS',
   ChangeProject = 'project/CHANGE'
 }

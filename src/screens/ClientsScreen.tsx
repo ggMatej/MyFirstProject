@@ -27,11 +27,9 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (isFocused && !clients.length) {
-      dispatch(getClients());
-      console.log('Clients length use effect: ', clients.length);
-    }
-  }, [clients, dispatch, isFocused]);
+    console.log('KLIJENT STATE', clients);
+    dispatch(getClients());
+  }, [clients]);
 
   return (
     <View style={styles.container}>
@@ -61,7 +59,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onAddClient() {
-    navigation.navigate(AppRoute.AddClient);
+    navigation.navigate(AppRoute.AddClients);
   }
 
   function onLogout() {

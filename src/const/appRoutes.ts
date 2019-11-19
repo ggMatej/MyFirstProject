@@ -10,7 +10,8 @@ export enum AppRoute {
   Auth = 'Auth',
   Splash = 'Splash',
   Projects = 'Projects',
-  AddClient = 'AddClient',
+  AddClients = 'AddClients',
   HomeStack = 'HomeStack',
-  ClientProjects = 'ClientProjects'
+  ClientProjects = 'ClientProjects',
+  AddProject = 'AddProject'
 }
