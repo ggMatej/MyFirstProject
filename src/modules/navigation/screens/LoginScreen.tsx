@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
+import { ApplicationState } from '~/modules/store';
+import { logout, login, facebookLogin } from '~/modules/auth';
 
-import { AppRoute } from '../const/appRoutes';
-import { login, logout } from '../modules/auth/redux/authThunks';
-import { facebookLogin } from '../modules/auth/redux/authThunks';
-import { ApplicationState } from '../modules/store/models/ApplicationState';
+import { AppRoute } from '..';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation

@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { Provider, useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { ApplicationState } from '~/modules/store';
+import { register } from '~/modules/auth';
 
-import { register } from '../modules/auth/redux/authThunks';
-import { ApplicationState } from '../modules/store/models/ApplicationState';
-
-export const RegistrationScreen: React.FC<NavigationStackScreenProps> = ({
-  navigation
-}) => {
+export const RegistrationScreen: React.FC<NavigationStackScreenProps> = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 

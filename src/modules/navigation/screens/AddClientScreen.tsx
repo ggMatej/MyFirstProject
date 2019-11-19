@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
+import { addClient, Client } from '~/modules/clients';
 
-import { addClient } from '../modules/client/redux/clientThunks';
-import { Client } from '../model/Client';
-import { AppRoute } from '../const/appRoutes';
+import { AppRoute } from '..';
 
 export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -42,12 +41,13 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onAddClient() {
-    if (email === '' || name === '') {
+    if (!email || !name) {
       setError('Empty field(s)');
-    } else {
-      dispatch(addClient(new Client(name, email)));
-      navigation.navigate(AppRoute.Clients);
+      return;
     }
+
+    dispatch(addClient(new Client(name, email)));
+    navigation.navigate(AppRoute.Clients);
   }
 };
 

@@ -1,17 +1,18 @@
 import { createStackNavigator } from 'react-navigation-stack';
 
-import { AppRoute } from '../const/appRoutes';
-import { LoginScreen, RegistrationScreen } from '../screens';
+import { AppRoute } from '../const/app-routes';
+import { LoginScreen } from '../screens/LoginScreen';
+import { RegistrationScreen } from '../screens/RegistrationScreen';
 
 export const AuthenticationNavigator = createStackNavigator(
   {
-    Login: {
+    [AppRoute.Login]: {
       screen: LoginScreen,
       navigationOptions: {
         title: 'Login'
       }
     },
-    Registration: {
+    [AppRoute.Registration]: {
       screen: RegistrationScreen,
       navigationOptions: {
         title: 'Register'
@@ -19,7 +20,6 @@ export const AuthenticationNavigator = createStackNavigator(
     }
   },
   {
-    initialRouteName: AppRoute.Login,
     defaultNavigationOptions: {
       headerStyle: {
         backgroundColor: 'black'

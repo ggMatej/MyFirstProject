@@ -1,11 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { AppRoute } from '../const/appRoutes';
 
-export const ProjectsScreen: React.FC<NavigationStackScreenProps> = ({
-  navigation
-}) => {
+export const ProjectsScreen: React.FC<NavigationStackScreenProps> = () => {
   return (
     <View style={styles.container}>
       <Text>Projects screen</Text>

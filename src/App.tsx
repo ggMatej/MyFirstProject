@@ -1,9 +1,8 @@
 import { createAppContainer } from 'react-navigation';
 import React from 'react';
 import { Provider } from 'react-redux';
-
-import { MainNavigator } from './navigators';
-import { configureStore } from './modules/store/helpers/configureStore';
+import { configureStore } from '~/modules/store';
+import { MainNavigator } from '~/modules/navigation';
 
 export const AppContainer = createAppContainer(MainNavigator);
 

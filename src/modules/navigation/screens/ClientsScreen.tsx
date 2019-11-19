@@ -9,13 +9,11 @@ import {
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute } from '../const/appRoutes';
-import { Client } from '../model/Client';
-import { logout } from '../modules/auth/redux/authThunks';
-import { ClientItem } from '../modules/client/components/clientItem';
-import { getClients } from '../modules/client/redux/clientThunks';
-import { ApplicationState } from '../modules/store/models/ApplicationState';
-import { useIsFocused } from 'react-navigation-hooks';
+import { logout } from '~/modules/auth';
+import { Client, ClientItem, getClients } from '~/modules/clients';
+import { ApplicationState } from '~/modules/store';
+
+import { AppRoute } from '..';
 
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -24,7 +22,6 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.client.clients
   );
 
-  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
     console.log('KLIJENT STATE', clients);
@@ -55,19 +52,15 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function renderListItem(item: ListRenderItemInfo<Client>) {
-    return <ClientItem client={item.item} onPress={onClientItemSelect} />;
+    return <ClientItem client={item.item} />;
   }
 
   function onAddClient() {
-    navigation.navigate(AppRoute.AddClients);
+    navigation.navigate(AppRoute.AddClient);
   }
 
   function onLogout() {
     dispatch(logout());
-  }
-
-  function onClientItemSelect(client: Client) {
-    navigation.navigate(AppRoute.ClientProjects, { client });
   }
 };
 
