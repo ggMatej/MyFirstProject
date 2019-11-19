@@ -1,10 +1,10 @@
-import { Project } from '../../../model/Project';
+import { Project } from '..';
 
-import { ProjectType } from './projectType';
-import { ProjectAction } from './projectActions';
+import { ProjectType } from './types';
+import { ProjectAction } from './actions';
 
 export interface ProjectState {
-  projects?: Project[];
+  projects: Project[];
   isChanging: boolean;
 }
 
@@ -13,25 +13,24 @@ const INITIAL_STATE: ProjectState = {
   isChanging: false
 };
 
-// Reducer
 export const projectReducer = (
   state = INITIAL_STATE,
   action: ProjectAction
 ) => {
   switch (action.type) {
-    case ProjectType.AddProject:
+    case ProjectType.Add:
       return {
         ...state,
         projects: [...state.projects, action.payload.project],
         isChanging: false
       };
-    case ProjectType.GetAllProjects:
+    case ProjectType.GetAll:
       return {
         ...state,
         projects: action.payload.projects,
         isChanging: false
       };
-    case ProjectType.ChangeProject:
+    case ProjectType.Change:
       return {
         ...state,
         isChanging: true

@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export const ProjectItem = ({ project, onPress }) => {
+import { Project } from '..';
+
+interface Props {
+  project: Project;
+  onPress: (item: Project) => void;
+}
+
+export const ProjectItem: React.FC<Props> = ({ project, onPress }) => {
   const { title, description } = project;
   return (
     <TouchableOpacity onPress={onPress.bind(null, project)}>
