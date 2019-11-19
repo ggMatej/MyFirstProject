@@ -1,4 +1,4 @@
-import { ActionUnion, createAction } from '~/modules/store';
+import { ActionUnion, createAction } from 'modules/store';
 
 import { Client } from '..';
 

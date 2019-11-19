@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState } from '~/modules/store';
-import { register } from '~/modules/auth';
+import { ApplicationState } from 'modules/store';
+import { register } from 'modules/auth';
 
 export const RegistrationScreen: React.FC<NavigationStackScreenProps> = () => {
   const [email, setEmail] = useState('');

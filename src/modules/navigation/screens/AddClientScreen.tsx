@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
-import { addClient, Client } from '~/modules/clients';
+import { addClient, Client } from 'modules/clients';
 
 import { AppRoute } from '..';
 

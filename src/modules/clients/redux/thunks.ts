@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import firebase from 'firebase';
-import { FirebaseCollection } from '~/modules/firebase';
+import { FirebaseCollection } from 'modules/firebase';
 
 import { Client } from '..';
 

@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '~/modules/auth';
-import { Client, ClientItem, getClients } from '~/modules/clients';
-import { ApplicationState } from '~/modules/store';
+import { logout } from 'modules/auth';
+import { Client, ClientItem, getClients } from 'modules/clients';
+import { ApplicationState } from 'modules/store';
 
 import { AppRoute } from '..';
 

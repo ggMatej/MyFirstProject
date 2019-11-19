@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
-import { ApplicationState } from '~/modules/store';
-import { logout, login, facebookLogin } from '~/modules/auth';
+import { ApplicationState } from 'modules/store';
+import { logout, login, facebookLogin } from 'modules/auth';
 
 import { AppRoute } from '..';
 

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { ApplicationState } from '~/modules/store';
-import { addProject, Project } from '~/modules/projects';
+import { ApplicationState } from 'modules/store';
+import { addProject, Project } from 'modules/projects';
 
 import { AppRoute } from '..';
 

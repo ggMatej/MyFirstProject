@@ -1,6 +1,6 @@
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { Dispatch } from 'redux';
-import { firebaseService } from '~/modules/firebase';
+import { firebaseService } from 'modules/firebase';
 import firebase from 'firebase';
 
 import { AuthAction } from './actions';

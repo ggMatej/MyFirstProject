@@ -1,4 +1,4 @@
-import { createAction, ActionUnion } from '~/modules/store';
+import { createAction, ActionUnion } from 'modules/store';
 
 import { AuthType } from './types';
 
