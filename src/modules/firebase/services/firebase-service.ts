@@ -13,10 +13,7 @@ export const firebaseService = (() => {
     appId: '1:103047032693:web:397d6c13d169bacc19ed3c'
   };
 
-  const instance = firebase.initializeApp(config);
-
   return {
-    auth: instance.auth(),
-    database: instance.firestore()
+    init: firebase.initializeApp(config)
   };
 })();
