@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Client } from '../../../model/Client';
+import { Client } from '..';
 
 interface Props {
   client: Client;

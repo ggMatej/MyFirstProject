@@ -1,50 +1,40 @@
-import { Client } from '../../../model/Client';
-import { Project } from '../../../model/Project';
+import { Client } from '..';
 
-import { ClientType } from './clientType';
-import { ClientAction } from './clientActions';
+import { ClientAction } from './actions';
+import { ClientType } from './types';
 
 export interface ClientState {
   isChanging: boolean;
   clients: Client[];
-  projects: Project[];
-  error: string;
+  error?: string;
 }
 
 const INITIAL_STATE: ClientState = {
   isChanging: false,
   clients: [],
-  projects: [],
-  error: ''
+  error: undefined
 };
 
-// Reducer
 export const clientReducer = (
   state: ClientState = INITIAL_STATE,
   action: ClientAction
 ) => {
   switch (action.type) {
-    case ClientType.ChangeClients:
+    case ClientType.Change:
       return {
         ...state,
         isChanging: true
       };
-    case ClientType.AddClient:
+    case ClientType.Add:
       return {
         ...state,
         clients: [...state.clients, action.payload.client]
       };
-    case ClientType.GetAllClients:
+    case ClientType.GetAll:
       return {
         ...state,
         isChanging: false,
         clients: action.payload.clients
-      };
-    case ClientType.GetClientProjects:
-      return {
-        ...state,
-        isChanging: false,
-        projects: action.payload.projects
       };
     case ClientType.Error:
       return {
