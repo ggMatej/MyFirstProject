@@ -1,13 +1,12 @@
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { Dispatch } from 'redux';
-import { firebaseService } from 'modules/firebase';
 import firebase from 'firebase';
 
 import { AuthAction } from './actions';
 
 export const logout = () => async (dispatch: Dispatch) => {
   dispatch(AuthAction.change());
-  firebaseService.auth.signOut();
+  firebase.auth().signOut();
   dispatch(AuthAction.logout());
 };
 
@@ -15,7 +14,8 @@ export const login = (email: string, password: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(AuthAction.change());
-  firebaseService.auth
+  firebase
+    .auth()
     .signInWithEmailAndPassword(email, password)
     .then(credential => {
       if (!credential.user) {
@@ -33,7 +33,8 @@ export const register = (email: string, password: string) => async (
   dispatch: Dispatch
 ) => {
   dispatch(AuthAction.change());
-  firebaseService.auth
+  firebase
+    .auth()
     .createUserWithEmailAndPassword(email, password)
     .then(credential => {
       if (!credential.user) {
