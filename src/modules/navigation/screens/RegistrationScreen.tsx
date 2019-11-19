@@ -16,12 +16,15 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = () => {
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
+          autoCapitalize="none"
           value={email}
           placeholder="Email"
           style={styles.input}
           onChangeText={setEmail}
         />
         <TextInput
+          secureTextEntry
+          autoCapitalize="none"
           style={styles.input}
           value={password}
           placeholder="Password"

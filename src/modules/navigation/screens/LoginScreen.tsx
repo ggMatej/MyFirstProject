@@ -20,6 +20,7 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
+          autoCapitalize="none"
           keyboardType="email-address"
           value={email}
           placeholder="Email"
@@ -27,6 +28,8 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
           onChangeText={setEmail}
         />
         <TextInput
+          secureTextEntry
+          autoCapitalize="none"
           style={styles.input}
           value={password}
           placeholder="Password"
