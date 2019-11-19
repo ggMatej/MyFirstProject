@@ -1,16 +1,51 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import React, { useEffect } from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  FlatList,
+  ListRenderItemInfo
+} from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { AppRoute } from '../const/appRoutes';
+import { ProjectItem } from '../modules/projects/components/projectItem';
+import { Project } from '../model/Project';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProjects } from '../modules/projects/redux/projectThunks';
+import { ApplicationState } from '../modules/store/models/ApplicationState';
 
 export const ProjectsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
+  const dispatch = useDispatch();
+  const projects = useSelector(
+    (state: ApplicationState) => state.project.projects
+  );
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text>Projects screen</Text>
+      <Text style={styles.title}>All projects</Text>
+      <FlatList
+        data={projects}
+        renderItem={renderListItem}
+        keyExtractor={renderKey}
+      />
     </View>
   );
+  function renderListItem(item: ListRenderItemInfo<Project>) {
+    return <ProjectItem project={item.item} onPress={onProjectPress} />;
+  }
+
+  function renderKey(project: Project) {
+    return project.id;
+  }
+
+  function onProjectPress(project: Project) {
+    alert(project.title);
+  }
 };
 
 const styles = StyleSheet.create({
@@ -18,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: '#d9d9d9',
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-start',
     alignItems: 'center'
   },
   input: {

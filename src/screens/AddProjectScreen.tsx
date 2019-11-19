@@ -3,12 +3,10 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addClient } from '../modules/client/redux/clientThunks';
 import { Client } from '../model/Client';
 import { AppRoute } from '../const/appRoutes';
 import { Project } from '../model/Project';
 import { addProject } from '../modules/projects/redux/projectThunks';
-import { firebaseService } from '../firebase/firebaseCfg';
 import { ApplicationState } from '../modules/store/models/ApplicationState';
 
 export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
@@ -54,7 +52,7 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
       setError('Empty field(s)');
     } else {
       dispatch(addProject(new Project(title, description), client.id));
-      navigation.navigate(AppRoute.ClientProjects);
+      navigation.navigate(AppRoute.Clients);
     }
   }
 };
