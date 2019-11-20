@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import firebase from 'firebase';
+import firebase from '@react-native-firebase/app';
 import { FirebaseCollection } from 'modules/firebase';
 
 import { Client } from '..';

@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "@react-native-firebase/app": "^6.0.4",
+    "@react-native-firebase/auth": "^6.0.4",
+    "@react-native-firebase/firestore": "^6.0.4",
+    "@types/react-native-fbsdk": "^1.0.0",
     "firebase": "^7.2.3",
     "grpc": "^1.24.2",
     "jetifier": "^1.6.4",
