@@ -52,7 +52,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function renderListItem(item: ListRenderItemInfo<Client>) {
-    return <ClientItem onPress={onClinetSelected} client={item.item} />;
+    return <ClientItem onPress={onClientSelected} client={item.item} />;
   }
 
   function onClientSelected(client: Client) {
