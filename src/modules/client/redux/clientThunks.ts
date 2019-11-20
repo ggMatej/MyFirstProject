@@ -5,10 +5,9 @@ import { Client } from '../../../model/Client';
 import { Project } from '../../../model/Project';
 
 import { ClientAction } from './clientActions';
-import { useDispatch } from 'react-redux';
 
 export const addClient = (client: Client) => async (dispatch: Dispatch) => {
-  await firebaseService.database
+  firebaseService.database
     .collection('clients')
     .add(Object.assign({}, client))
     .then(() => {

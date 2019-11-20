@@ -7,8 +7,7 @@ import { AuthType } from './authType';
 export const AuthAction = {
   loginSuccess: (user: firebase.User) =>
     createAction(AuthType.LoginSuccess, { user }),
-  loginError: (error: firebase.auth.AuthError) =>
-    createAction(AuthType.LoginError, { error }),
+  loginError: (error: string) => createAction(AuthType.LoginError, { error }),
   logout: () => createAction(AuthType.Logout),
   loading: () => createAction(AuthType.Loading)
 };

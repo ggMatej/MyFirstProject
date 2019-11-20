@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
+import React, {useEffect} from 'react';
+import {StyleSheet, Text, View, ActivityIndicator} from 'react-native';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
 
-import { firebaseService } from '../firebase/firebaseCfg';
-import { AppRoute } from '../const/appRoutes';
+import {firebaseService} from '../firebase/firebaseCfg';
+import {AppRoute} from '../const/appRoutes';
 
 export const SplashScreen: React.FC<NavigationStackScreenProps> = ({
-  navigation
+  navigation,
 }) => {
   useEffect(() => {
     firebaseService.auth.onAuthStateChanged(user => {
@@ -26,6 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });

@@ -1,35 +1,38 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import {
   Button,
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
   Text,
-  View
+  View,
 } from 'react-native';
-import { NavigationStackScreenProps } from 'react-navigation-stack';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppRoute } from '../const/appRoutes';
-import { Client } from '../model/Client';
-import { logout } from '../modules/auth/redux/authThunks';
-import { ClientItem } from '../modules/client/components/clientItem';
-import { getClients } from '../modules/client/redux/clientThunks';
-import { ApplicationState } from '../modules/store/models/ApplicationState';
-import { useIsFocused } from 'react-navigation-hooks';
+import {NavigationStackScreenProps} from 'react-navigation-stack';
+import {useDispatch, useSelector} from 'react-redux';
+import {useIsFocused} from 'react-navigation-hooks';
+
+import {AppRoute} from '../const/appRoutes';
+import {Client} from '../model/Client';
+import {logout} from '../modules/auth/redux/authThunks';
+import {ClientItem} from '../modules/client/components/clientItem';
+import {getClients} from '../modules/client/redux/clientThunks';
+import {ApplicationState} from '../modules/store/models/ApplicationState';
 
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
-  navigation
+  navigation,
 }) => {
   const clients = useSelector(
-    (state: ApplicationState) => state.client.clients
+    (state: ApplicationState) => state.client.clients,
   );
+  console.log('ClientScreen:', clients);
 
   const isFocused = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('KLIJENT STATE', clients);
-    dispatch(getClients());
-  }, [clients]);
+    if (isFocused && !clients.length) {
+      dispatch(getClients());
+    }
+  }, [clients, isFocused, dispatch]);
 
   return (
     <View style={styles.container}>
@@ -67,7 +70,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onClientItemSelect(client: Client) {
-    navigation.navigate(AppRoute.ClientProjects, { client });
+    navigation.navigate(AppRoute.ClientProjects, {client});
   }
 };
 
@@ -77,44 +80,44 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: '#d9d9d9',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   input: {
     backgroundColor: '#cccccc',
     borderStyle: 'solid',
     borderRadius: 10,
     margin: 5,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   button: {
-    margin: 5
+    margin: 5,
   },
   buttonView: {
     width: '40%',
-    margin: 5
+    margin: 5,
   },
   inputView: {
     width: '70%',
-    margin: 10
+    margin: 10,
   },
   text: {
     color: 'black',
-    margin: 5
+    margin: 5,
   },
   error: {
     color: 'red',
     margin: 5,
     fontWeight: 'bold',
     fontSize: 15,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   item: {
     backgroundColor: '#cccccc',
     padding: 5,
     marginVertical: 5,
-    width: 300
+    width: 300,
   },
   title: {
-    fontSize: 25
-  }
+    fontSize: 25,
+  },
 });

@@ -55,19 +55,11 @@ export const facebookLogin = () => (dispatch: Dispatch) => {
   LoginManager.logInWithPermissions(['public_profile', 'email']).then(
     async (result: LoginResult) => {
       if (result.isCancelled) {
-        dispatch(
-          AuthAction.loginError(
-            ('Login with Facebook canceled!' as unknown) as firebase.auth.AuthError
-          )
-        );
+        dispatch(AuthAction.loginError('Login with Facebook canceled!'));
         return;
       }
       if (result.declinedPermissions && result.declinedPermissions.length > 0) {
-        dispatch(
-          AuthAction.loginError(
-            ("You don't have permissions!" as unknown) as firebase.auth.AuthError
-          )
-        );
+        dispatch(AuthAction.loginError("You don't have permissions!"));
         return;
       }
 

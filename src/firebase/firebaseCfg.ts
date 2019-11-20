@@ -10,13 +10,13 @@ export const firebaseService = (() => {
     projectId: 'myfirstrnproject-cb539',
     storageBucket: 'myfirstrnproject-cb539.appspot.com',
     messagingSenderId: '103047032693',
-    appId: '1:103047032693:web:397d6c13d169bacc19ed3c'
+    appId: '1:103047032693:web:397d6c13d169bacc19ed3c',
   };
 
   const instance = firebase.initializeApp(config);
 
   return {
     auth: instance.auth(),
-    database: instance.firestore()
+    database: instance.firestore(),
   };
 })();

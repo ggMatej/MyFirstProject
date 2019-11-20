@@ -52,7 +52,7 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
       setError('Empty field(s)');
     } else {
       dispatch(addProject(new Project(title, description), client.id));
-      navigation.navigate(AppRoute.Clients);
+      navigation.navigate(AppRoute.ClientProjects);
     }
   }
 };

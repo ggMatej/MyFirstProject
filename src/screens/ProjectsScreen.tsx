@@ -13,17 +13,26 @@ import { Project } from '../model/Project';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProjects } from '../modules/projects/redux/projectThunks';
 import { ApplicationState } from '../modules/store/models/ApplicationState';
+import { useIsFocused } from 'react-navigation-hooks';
 
 export const ProjectsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
+  const isFocused = useIsFocused();
   const dispatch = useDispatch();
   const projects = useSelector(
     (state: ApplicationState) => state.project.projects
   );
+  const clients = useSelector(
+    (state: ApplicationState) => state.client.clients
+  );
+  console.log('ProjectScreen Clients:', clients);
+  console.log('ProjectScreen Projects:', projects);
   useEffect(() => {
-    dispatch(getProjects());
-  }, []);
+    if (isFocused && !projects.length) {
+      dispatch(getProjects());
+    }
+  }, [projects, isFocused, dispatch]);
 
   return (
     <View style={styles.container}>
