@@ -1,9 +1,11 @@
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
+
 import { AuthType } from './types';
 import { AuthAction } from './actions';
 
 export interface AuthState {
   loading: boolean;
-  user?: firebase.User;
+  user?: FirebaseAuthTypes.User;
   error?: string;
 }
 
