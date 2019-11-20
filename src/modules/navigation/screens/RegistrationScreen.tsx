@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from 'modules/store';
-import { register } from 'modules/auth';
+import { register, AuthAction } from 'modules/auth';
 
 export const RegistrationScreen: React.FC<NavigationStackScreenProps> = () => {
   const [email, setEmail] = useState('');
@@ -41,7 +41,12 @@ export const RegistrationScreen: React.FC<NavigationStackScreenProps> = () => {
   );
 
   function onRegister() {
-    dispatch(register(email, password));
+    // Ne hvata mi error kad su prazni email ili password? Temp. solution
+    if (!email || !password) {
+      dispatch(AuthAction.authError('Empty email or password'));
+    } else {
+      dispatch(register(email, password));
+    }
   }
 };
 

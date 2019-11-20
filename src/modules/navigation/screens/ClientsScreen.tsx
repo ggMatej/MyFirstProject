@@ -24,7 +24,6 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log('KLIJENT STATE', clients);
     dispatch(getClients());
   }, [clients]);
 
@@ -63,8 +62,10 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     navigation.navigate(AppRoute.AddClient);
   }
 
+  // NIsam siguran jel ovo dobro?
   function onLogout() {
     dispatch(logout());
+    navigation.navigate(AppRoute.Login);
   }
 };
 

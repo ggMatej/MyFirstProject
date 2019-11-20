@@ -3,7 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from 'modules/store';
-import { logout, login, facebookLogin } from 'modules/auth';
+import { logout, login, facebookLogin, AuthAction } from 'modules/auth';
 
 import { AppRoute } from '..';
 
@@ -74,7 +74,12 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogin() {
-    dispatch(login(email, password));
+    // Ne hvata mi error kad su prazni email ili password? Temp. solution
+    if (!email || !password) {
+      dispatch(AuthAction.authError('Empty email or password'));
+    } else {
+      dispatch(login(email, password));
+    }
   }
 
   function onForgotPassword() {
