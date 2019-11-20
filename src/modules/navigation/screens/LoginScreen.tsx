@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,8 +13,15 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const user = useSelector((state: ApplicationState) => state.auth.user);
   const authError = useSelector((state: ApplicationState) => state.auth.error);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (user) {
+      navigation.navigate(AppRoute.Home);
+    }
+  }, [user]);
 
   return (
     <View style={styles.container}>
