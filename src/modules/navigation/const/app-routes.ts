@@ -16,6 +16,7 @@ export enum AppRoute {
    */
   Clients = 'Clients',
   AddClient = 'AddClient',
+  ClientDetails = 'ClientDetails',
 
   /**
    * Projects

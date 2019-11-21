@@ -21,6 +21,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   const clients = useSelector(
     (state: ApplicationState) => state.client.clients
   );
+  console.log('klijenti clientScreen:', clients);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -55,7 +56,7 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onClientSelected(client: Client) {
-    // Go to client details screen
+    navigation.navigate(AppRoute.ClientDetails, { client });
   }
 
   function onAddClient() {

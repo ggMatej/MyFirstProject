@@ -13,15 +13,15 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const user = useSelector((state: ApplicationState) => state.auth.user);
+  // const user = useSelector((state: ApplicationState) => state.auth.user);
   const authError = useSelector((state: ApplicationState) => state.auth.error);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (user) {
-      navigation.navigate(AppRoute.Home);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     navigation.navigate(AppRoute.Home);
+  //   }
+  // }, [user]);
 
   return (
     <View style={styles.container}>
