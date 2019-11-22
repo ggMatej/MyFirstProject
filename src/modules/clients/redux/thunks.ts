@@ -6,15 +6,18 @@ import { Client } from '..';
 
 import { ClientAction } from './actions';
 
-export const addClient = (client: Client) => (dispatch: Dispatch) => {
+// Tu imam problem jer klijent se doda bez id.a
+export const addClient = (client: Client) => async (dispatch: Dispatch) => {
   firebase
     .firestore()
     .collection(FirebaseCollection.Clients)
     .add(client);
+
+  dispatch(ClientAction.add(client));
 };
 
-export const getClients = () => (dispatch: Dispatch) => {
-  dispatch(ClientAction.change());
+export const getClients = () => async (dispatch: Dispatch) => {
+  // dispatch(ClientAction.change());
   firebase
     .firestore()
     .collection(FirebaseCollection.Clients)

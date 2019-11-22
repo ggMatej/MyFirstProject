@@ -43,6 +43,6 @@ export const clientReducer = (
         error: action.payload.error
       };
     default:
-      return INITIAL_STATE;
+      return state || INITIAL_STATE;
   }
 };

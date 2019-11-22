@@ -36,6 +36,6 @@ export const projectReducer = (
         isChanging: true
       };
     default:
-      return INITIAL_STATE;
+      return state || INITIAL_STATE;
   }
 };
