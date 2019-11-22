@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
-import { addClient, Client } from 'modules/clients';
+import { addClient, Client, getClients } from 'modules/clients';
 
 import { AppRoute } from '..';
 
@@ -47,6 +47,8 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
     }
 
     dispatch(addClient(new Client(name, email)));
+    // Get clients zovem zbog tog sto mi se klijent doda bez id.a, a id mi treba da mogu spremat id projekta kod klijenata
+    dispatch(getClients());
     navigation.navigate(AppRoute.Clients);
   }
 };

@@ -1,20 +1,29 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Picker
+} from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from 'modules/store';
-import { addProject, Project } from 'modules/projects';
+import { addProject, Project, getProjects } from 'modules/projects';
 
 import { AppRoute } from '..';
 
 export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
   const clients = useSelector(
     (state: ApplicationState) => state.client.clients
   );
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [clientId, setClientId] = useState(clients[0].id);
+  const [error, setError] = useState('');
 
   const dispatch = useDispatch();
   return (
@@ -33,7 +42,16 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
           onChangeText={setDescription}
         />
       </View>
-      <Text style={styles.error}>{clients.length}</Text>
+      <Text style={styles.error}>{error}</Text>
+      <Picker
+        selectedValue={clientId}
+        style={{ height: 50, width: 100 }}
+        onValueChange={setClientId}
+      >
+        {clients.map((item, index) => {
+          return <Picker.Item label={item.name} value={item.id} key={index} />;
+        })}
+      </Picker>
       <View style={styles.buttonView}>
         <View style={styles.button}>
           <Button color="black" title="Add project" onPress={onAddProject} />
@@ -43,8 +61,13 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   function onAddProject() {
-    dispatch(addProject(new Project(title, description)));
-    navigation.navigate(AppRoute.Clients);
+    if (!title || !description) {
+      setError('Title or description empty!');
+      return;
+    }
+    dispatch(addProject(new Project(title, description, clientId)));
+    dispatch(getProjects());
+    navigation.navigate(AppRoute.Projects);
   }
 };
 

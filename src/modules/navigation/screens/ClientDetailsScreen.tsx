@@ -4,14 +4,15 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   Text,
-  View,
-  Alert
+  View
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Client } from 'modules/clients';
 import { Project, getProjects, ProjectItem } from 'modules/projects';
 import { ApplicationState } from 'modules/store';
+
+import { AppRoute } from '../const/app-routes';
 
 export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -24,32 +25,44 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.project.projects
   );
 
-  useEffect(() => {
-    dispatch(getProjects());
-    console.log('projekti:', projects);
-  }, []);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Projects with {client.name}:</Text>
-      <FlatList
-        data={projects}
-        renderItem={renderListItem}
-        keyExtractor={renderKey}
-      />
-    </View>
+  const clientProjects = projects.filter(
+    project => project.clientId === client.id
   );
 
+  useEffect(() => {
+    dispatch(getProjects());
+  }, []);
+
+  if (!clientProjects.length) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Projects with {client.name}:</Text>
+        <Text>This client has no projects!</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>Projects with {client.name}:</Text>
+        <FlatList
+          data={clientProjects}
+          renderItem={renderListItem}
+          keyExtractor={renderKey}
+        />
+      </View>
+    );
+  }
+
   function renderListItem(item: ListRenderItemInfo<Project>) {
-    return <ProjectItem project={item.item} onPress={onProjectPress} />;
+    return <ProjectItem project={item.item} onPress={onProjectSelected} />;
   }
 
   function renderKey(project: Project) {
     return project.id;
   }
 
-  function onProjectPress(project: Project) {
-    Alert.alert(project.title);
+  function onProjectSelected(project: Project) {
+    navigation.navigate(AppRoute.ProjectDetails, { project });
   }
 };
 

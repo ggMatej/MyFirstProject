@@ -18,15 +18,17 @@ import { AppRoute } from '..';
 export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
 }) => {
+  const dispatch = useDispatch();
+
   const clients = useSelector(
     (state: ApplicationState) => state.client.clients
   );
-  console.log('klijenti clientScreen:', clients);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getClients());
-  }, [clients]);
+  }, []);
+
+  console.log('klijenti clientScreen:', clients);
 
   return (
     <View style={styles.container}>
