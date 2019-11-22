@@ -11,6 +11,8 @@ export const addProject = (project: Project) => async (dispatch: Dispatch) => {
     .firestore()
     .collection(FirebaseCollection.Projects)
     .add(project);
+
+  dispatch(ProjectAction.add(project));
 };
 
 export const getProjects = () => (dispatch: Dispatch) => {
