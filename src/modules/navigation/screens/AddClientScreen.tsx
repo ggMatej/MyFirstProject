@@ -3,6 +3,7 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
 import { addClient, Client, getClients } from 'modules/clients';
+import { validateEmail } from 'modules/common/index.';
 
 import { AppRoute } from '..';
 
@@ -42,14 +43,14 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
 
   function onAddClient() {
     if (!email || !name) {
-      setError('Empty field(s)');
-      return;
+      setError('Empty email or password');
+    } else if (!validateEmail(email)) {
+      setError('Bad email!');
+    } else {
+      dispatch(addClient(new Client(name, email)));
+      dispatch(getClients());
+      navigation.navigate(AppRoute.Clients);
     }
-
-    dispatch(addClient(new Client(name, email)));
-    // Get clients zovem zbog tog sto mi se klijent doda bez id.a, a id mi treba da mogu spremat id projekta kod klijenata
-    dispatch(getClients());
-    navigation.navigate(AppRoute.Clients);
   }
 };
 

@@ -13,6 +13,7 @@ import {
 import { FirebaseAuthTypes, firebase } from '@react-native-firebase/auth';
 
 import { AppRoute } from '..';
+import { validateEmail } from 'modules/common/index.';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -84,9 +85,10 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function onLogin() {
-    // Ne hvata mi error kad su prazni email ili password? Temp. solution
     if (!email || !password) {
       dispatch(AuthAction.authError('Empty email or password'));
+    } else if (!validateEmail(email)) {
+      dispatch(AuthAction.authError('Email bad!'));
     } else {
       dispatch(login(email, password));
     }
