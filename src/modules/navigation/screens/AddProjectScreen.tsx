@@ -45,7 +45,7 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
       <Text style={styles.error}>{error}</Text>
       <Picker
         selectedValue={clientId}
-        style={{ height: 50, width: 100 }}
+        style={{ height: 50, width: 150 }}
         onValueChange={setClientId}
       >
         {clients.map((item, index) => {
