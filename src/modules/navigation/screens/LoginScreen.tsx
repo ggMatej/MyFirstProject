@@ -3,7 +3,14 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from 'modules/store';
-import { logout, login, facebookLogin, AuthAction } from 'modules/auth';
+import {
+  logout,
+  login,
+  facebookLogin,
+  AuthAction,
+  setUser
+} from 'modules/auth';
+import { FirebaseAuthTypes, firebase } from '@react-native-firebase/auth';
 
 import { AppRoute } from '..';
 
@@ -17,11 +24,14 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   const authError = useSelector((state: ApplicationState) => state.auth.error);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     navigation.navigate(AppRoute.Home);
-  //   }
-  // }, [user]);
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      dispatch(setUser(user));
+      navigation.navigate(AppRoute.Home);
+    } else {
+      navigation.navigate(AppRoute.Login);
+    }
+  });
 
   return (
     <View style={styles.container}>

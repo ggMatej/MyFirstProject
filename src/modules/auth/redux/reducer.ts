@@ -26,6 +26,13 @@ export const authReducer = (
         loading: true
       };
 
+    case AuthType.SetUser:
+      return {
+        ...state,
+        user: action.payload.user,
+        loading: false
+      };
+
     case AuthType.Success:
       return {
         ...state,
@@ -45,6 +52,6 @@ export const authReducer = (
         ...INITIAL_STATE
       };
     default:
-      return state;
+      return state || INITIAL_STATE;
   }
 };

@@ -1,8 +1,15 @@
 import { AccessToken, LoginManager } from 'react-native-fbsdk';
 import { Dispatch } from 'redux';
 import firebase from '@react-native-firebase/app';
+import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 import { AuthAction } from './actions';
+
+export const setUser = (user?: FirebaseAuthTypes.User) => async (
+  dispatch: Dispatch
+) => {
+  dispatch(AuthAction.set(user));
+};
 
 export const logout = () => async (dispatch: Dispatch) => {
   dispatch(AuthAction.change());

@@ -11,7 +11,10 @@ export const AuthAction = {
 
   authError: (error: string) => createAction(AuthType.Error, { error }),
 
-  logout: () => createAction(AuthType.Logout)
+  logout: () => createAction(AuthType.Logout),
+
+  set: (user?: FirebaseAuthTypes.User) =>
+    createAction(AuthType.SetUser, { user })
 };
 
 export type AuthAction = ActionUnion<typeof AuthAction>;

@@ -24,11 +24,13 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.client.clients
   );
 
+  const user = useSelector((state: ApplicationState) => state.auth.user);
+
+  console.log('User:', user);
+
   useEffect(() => {
     dispatch(getClients());
   }, []);
-
-  console.log('klijenti clientScreen:', clients);
 
   return (
     <View style={styles.container}>
@@ -37,7 +39,6 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
         renderItem={renderListItem}
         keyExtractor={renderKey}
       />
-      <Text>{clients.length}</Text>
       <View style={styles.buttonView}>
         <View style={styles.button}>
           <Button title="Add client" onPress={onAddClient} />

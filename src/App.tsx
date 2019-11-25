@@ -10,7 +10,6 @@ export const AppContainer = createAppContainer(MainNavigator);
 
 export const App: React.FC = () => {
   const store = configureStore();
-
   return (
     <Provider store={store}>
       <AppContainer />

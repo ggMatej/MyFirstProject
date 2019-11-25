@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Client } from 'modules/clients';
 import { Project, getProjects, ProjectItem } from 'modules/projects';
 import { ApplicationState } from 'modules/store';
+import { createSelector } from 'reselect';
 
 import { AppRoute } from '../const/app-routes';
 
@@ -21,13 +22,17 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
 
   const dispatch = useDispatch();
 
-  const projects = useSelector(
-    (state: ApplicationState) => state.project.projects
+  const projectSelector = (state: ApplicationState) => state.project.projects;
+
+  const clientProjectsSelector = createSelector(projectSelector, project =>
+    project.filter(project => project.clientId === client.id)
   );
 
-  const clientProjects = projects.filter(
-    project => project.clientId === client.id
-  );
+  const clientProjects = useSelector(clientProjectsSelector);
+
+  // const clientProjects = projects.filter(
+  //   project => project.clientId === client.id
+  // );
 
   useEffect(() => {
     dispatch(getProjects());

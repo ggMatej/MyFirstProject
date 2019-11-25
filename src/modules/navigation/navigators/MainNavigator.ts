@@ -6,6 +6,6 @@ import { AuthenticationNavigator } from './AuthenticationNavigator';
 import { BottomTabNavigator } from './BottomTabNavigator';
 
 export const MainNavigator = createSwitchNavigator({
-  [AppRoute.Home]: BottomTabNavigator,
-  [AppRoute.Auth]: AuthenticationNavigator
+  [AppRoute.Auth]: AuthenticationNavigator,
+  [AppRoute.Home]: BottomTabNavigator
 });
