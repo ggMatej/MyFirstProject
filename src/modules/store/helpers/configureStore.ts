@@ -5,13 +5,15 @@ import thunk from 'redux-thunk';
 import { authReducer } from 'modules/auth';
 import { clientReducer } from 'modules/clients';
 import { projectReducer } from 'modules/projects';
+import { reviewReducer } from 'modules/reviews';
 // import AsyncStorage from '@react-native-community/async-storage';
 // import { createLogger } from 'redux-logger';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   client: clientReducer,
-  project: projectReducer
+  project: projectReducer,
+  review: reviewReducer
 });
 
 export const configureStore = () =>

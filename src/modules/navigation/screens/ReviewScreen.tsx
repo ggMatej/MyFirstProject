@@ -3,11 +3,12 @@ import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { sendEmail } from 'modules/common/index.';
 import { Project } from 'modules/projects';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from 'modules/store';
 import { createSelector } from 'reselect';
 
 import { AppRoute } from '../const/app-routes';
+import { addReview, Review } from 'modules/reviews';
 
 export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -23,6 +24,7 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
     clients => clients.filter(client => client.id === project.clientId)
   );
 
+  const dispatch = useDispatch();
   const clients = useSelector(clientSelector);
   const client = clients[0];
 
@@ -61,7 +63,9 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
       return;
     }
     sendEmail(client.email, title, review).then(() => {
-      console.log('Email sent!'), navigation.navigate(AppRoute.ProjectDetails);
+      console.log('Email sent!'),
+        navigation.navigate(AppRoute.ProjectDetails),
+        dispatch(addReview(new Review(title, review, project.id)));
     });
   }
 };
