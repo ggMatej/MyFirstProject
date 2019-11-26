@@ -1,1 +1,1 @@
-export * from './StringExtensions';
+export * from './EmailFunctions';

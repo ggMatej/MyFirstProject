@@ -24,15 +24,11 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
 
   const projectSelector = (state: ApplicationState) => state.project.projects;
 
-  const clientProjectsSelector = createSelector(projectSelector, project =>
-    project.filter(project => project.clientId === client.id)
+  const clientProjectsSelector = createSelector(projectSelector, projects =>
+    projects.filter(project => project.clientId === client.id)
   );
 
   const clientProjects = useSelector(clientProjectsSelector);
-
-  // const clientProjects = projects.filter(
-  //   project => project.clientId === client.id
-  // );
 
   useEffect(() => {
     dispatch(getProjects());

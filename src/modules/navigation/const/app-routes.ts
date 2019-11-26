@@ -24,6 +24,7 @@ export enum AppRoute {
   Projects = 'Projects',
   AddProject = 'AddProject',
   ProjectDetails = 'ProjectDetails',
+  ReviewScreen = 'ReviewScreen',
 
   /**
    * Settings

@@ -1,7 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Project } from 'modules/projects';
+
+import { AppRoute } from '../const/app-routes';
 
 export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -12,8 +14,14 @@ export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
     <View style={styles.container}>
       <Text style={styles.title}>{project.title}</Text>
       <Text>{project.description}</Text>
+      <View style={styles.button}>
+        <Button color="black" title="Make review" onPress={onMakeReview} />
+      </View>
     </View>
   );
+  function onMakeReview() {
+    navigation.navigate(AppRoute.ReviewScreen, { project });
+  }
 };
 
 const styles = StyleSheet.create({
