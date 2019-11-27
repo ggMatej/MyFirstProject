@@ -5,7 +5,8 @@ import {
   View,
   Button,
   FlatList,
-  ListRenderItemInfo
+  ListRenderItemInfo,
+  ActivityIndicator
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Project } from 'modules/projects';
@@ -30,26 +31,34 @@ export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   const projectReviews = useSelector(projectReviewsSelector);
+  const isChanging = useSelector(
+    (state: ApplicationState) => state.review.isChanging
+  );
 
   useEffect(() => {
     dispatch(getReviews());
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{project.title}</Text>
-      <Text>{project.description}</Text>
-      <Text>Project reviews:</Text>
-      <FlatList
-        data={projectReviews}
-        renderItem={renderListItem}
-        keyExtractor={renderKey}
-      />
-      <View style={styles.button}>
-        <Button color="black" title="Make review" onPress={onMakeReview} />
+  if (isChanging) {
+    return <ActivityIndicator size="large" />;
+  } else {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>{project.title}</Text>
+        <Text>{project.description}</Text>
+        <Text>Project reviews:</Text>
+        <FlatList
+          data={projectReviews}
+          renderItem={renderListItem}
+          keyExtractor={renderKey}
+        />
+        <View style={styles.button}>
+          <Button color="black" title="Make review" onPress={onMakeReview} />
+        </View>
       </View>
-    </View>
-  );
+    );
+  }
+
   function onMakeReview() {
     navigation.navigate(AppRoute.Reviews, { project });
   }
@@ -59,10 +68,10 @@ export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   }
 
   function renderListItem(item: ListRenderItemInfo<Review>) {
-    return <ReviewItem onPress={onClientSelected} review={item.item} />;
+    return <ReviewItem onPress={onReviewSelected} review={item.item} />;
   }
 
-  function onClientSelected(review: Review) {
+  function onReviewSelected(review: Review) {
     navigation.navigate(AppRoute.ReviewDetails, { review });
   }
 };

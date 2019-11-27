@@ -4,14 +4,15 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   View,
-  Alert,
-  Button
+  Button,
+  ActivityIndicator
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { Project, ProjectItem } from 'modules/projects';
 import { ApplicationState } from 'modules/store';
 import { getProjects } from 'modules/projects';
+
 import { AppRoute } from '../const/app-routes';
 
 export const ProjectsScreen: React.FC<NavigationStackScreenProps> = ({
@@ -23,24 +24,32 @@ export const ProjectsScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.project.projects
   );
 
+  const isChanging = useSelector(
+    (state: ApplicationState) => state.project.isChanging
+  );
+
   useEffect(() => {
     dispatch(getProjects());
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={projects}
-        renderItem={renderListItem}
-        keyExtractor={renderKey}
-      />
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button title="Add project" onPress={onAddProject} />
+  if (isChanging) {
+    return <ActivityIndicator size="large" />;
+  } else {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={projects}
+          renderItem={renderListItem}
+          keyExtractor={renderKey}
+        />
+        <View style={styles.buttonView}>
+          <View style={styles.button}>
+            <Button title="Add project" onPress={onAddProject} />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 
   function onAddProject() {
     navigation.navigate(AppRoute.AddProject);

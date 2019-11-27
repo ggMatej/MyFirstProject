@@ -6,8 +6,8 @@ import { Review } from '..';
 
 import { ReviewAction } from './actions';
 
-// Tu imam problem jer klijent se doda bez id.a
 export const addReview = (review: Review) => async (dispatch: Dispatch) => {
+  dispatch(ReviewAction.change());
   firebase
     .firestore()
     .collection(FirebaseCollection.Reviews)
@@ -17,7 +17,7 @@ export const addReview = (review: Review) => async (dispatch: Dispatch) => {
 };
 
 export const getReviews = () => async (dispatch: Dispatch) => {
-  // dispatch(ReviewAction.change());
+  dispatch(ReviewAction.change());
   firebase
     .firestore()
     .collection(FirebaseCollection.Reviews)

@@ -7,6 +7,7 @@ import { Project } from '..';
 import { ProjectAction } from './actions';
 
 export const addProject = (project: Project) => async (dispatch: Dispatch) => {
+  dispatch(ProjectAction.change());
   firebase
     .firestore()
     .collection(FirebaseCollection.Projects)

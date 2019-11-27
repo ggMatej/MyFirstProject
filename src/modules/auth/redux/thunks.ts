@@ -8,6 +8,7 @@ import { AuthAction } from './actions';
 export const setUser = (user?: FirebaseAuthTypes.User) => async (
   dispatch: Dispatch
 ) => {
+  dispatch(AuthAction.change());
   dispatch(AuthAction.set(user));
 };
 

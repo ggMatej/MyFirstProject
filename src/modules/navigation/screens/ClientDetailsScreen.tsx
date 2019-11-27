@@ -4,7 +4,8 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   Text,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -29,6 +30,9 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   const clientProjects = useSelector(clientProjectsSelector);
+  const isChanging = useSelector(
+    (state: ApplicationState) => state.project.isChanging
+  );
 
   useEffect(() => {
     dispatch(getProjects());
@@ -41,6 +45,8 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
         <Text>This client has no projects!</Text>
       </View>
     );
+  } else if (isChanging) {
+    return <ActivityIndicator size="large" />;
   } else {
     return (
       <View style={styles.container}>

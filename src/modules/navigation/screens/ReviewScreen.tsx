@@ -6,9 +6,9 @@ import { Project } from 'modules/projects';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from 'modules/store';
 import { createSelector } from 'reselect';
+import { addReview, Review } from 'modules/reviews';
 
 import { AppRoute } from '../const/app-routes';
-import { addReview, Review } from 'modules/reviews';
 
 export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -21,7 +21,7 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
 
   const clientSelector = createSelector(
     (state: ApplicationState) => state.client.clients,
-    clients => clients.filter(client => client.id === project.clientId)
+    _clients => _clients.filter(_client => _client.id === project.clientId)
   );
 
   const dispatch = useDispatch();

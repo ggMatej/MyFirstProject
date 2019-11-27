@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  ActivityIndicator
+} from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { ApplicationState } from 'modules/store';
@@ -10,10 +17,10 @@ import {
   AuthAction,
   setUser
 } from 'modules/auth';
-import { FirebaseAuthTypes, firebase } from '@react-native-firebase/auth';
+import { firebase } from '@react-native-firebase/auth';
+import { validateEmail } from 'modules/common/index.';
 
 import { AppRoute } from '..';
-import { validateEmail } from 'modules/common/index.';
 
 export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -21,66 +28,71 @@ export const LoginScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  // const user = useSelector((state: ApplicationState) => state.auth.user);
   const authError = useSelector((state: ApplicationState) => state.auth.error);
   const dispatch = useDispatch();
 
-  firebase.auth().onAuthStateChanged(user => {
-    if (user) {
-      dispatch(setUser(user));
+  const isChanging = useSelector(
+    (state: ApplicationState) => state.auth.loading
+  );
+
+  firebase.auth().onAuthStateChanged(_user => {
+    if (_user) {
+      dispatch(setUser(_user));
       navigation.navigate(AppRoute.Home);
-    } else {
-      navigation.navigate(AppRoute.Login);
     }
   });
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.inputView}>
-        <TextInput
-          autoCapitalize="none"
-          keyboardType="email-address"
-          value={email}
-          placeholder="Email"
-          style={styles.input}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          secureTextEntry
-          autoCapitalize="none"
-          style={styles.input}
-          value={password}
-          placeholder="Password"
-          onChangeText={setPassword}
-        />
-      </View>
-      <Text style={styles.error}>{authError}</Text>
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button color="black" title="Login" onPress={onLogin} />
-        </View>
-        <View style={styles.button}>
-          <Button
-            color="black"
-            title="Facebook login"
-            onPress={onFacebookLogin}
+  if (isChanging) {
+    return <ActivityIndicator size="large" />;
+  } else {
+    return (
+      <View style={styles.container}>
+        <View style={styles.inputView}>
+          <TextInput
+            autoCapitalize="none"
+            keyboardType="email-address"
+            value={email}
+            placeholder="Email"
+            style={styles.input}
+            onChangeText={setEmail}
+          />
+          <TextInput
+            secureTextEntry
+            autoCapitalize="none"
+            style={styles.input}
+            value={password}
+            placeholder="Password"
+            onChangeText={setPassword}
           />
         </View>
-      </View>
-      <Text style={styles.text} onPress={onForgotPassword}>
-        Forgot password?
-      </Text>
-      <Text style={styles.text} onPress={onRegister}>
-        Don't have an account?{' '}
-        <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 15 }}>
-          Register!
+        <Text style={styles.error}>{authError}</Text>
+        <View style={styles.buttonView}>
+          <View style={styles.button}>
+            <Button color="black" title="Login" onPress={onLogin} />
+          </View>
+          <View style={styles.button}>
+            <Button
+              color="black"
+              title="Facebook login"
+              onPress={onFacebookLogin}
+            />
+          </View>
+        </View>
+        <Text style={styles.text} onPress={onForgotPassword}>
+          Forgot password?
         </Text>
-      </Text>
-    </View>
-  );
+        <Text style={styles.text} onPress={onRegister}>
+          Don't have an account?{' '}
+          <Text style={{ color: 'red', fontWeight: 'bold', fontSize: 15 }}>
+            Register!
+          </Text>
+        </Text>
+      </View>
+    );
+  }
 
   function onRegister() {
-    dispatch(logout());
+    dispatch(AuthAction.authError(''));
     navigation.navigate(AppRoute.Registration);
   }
 

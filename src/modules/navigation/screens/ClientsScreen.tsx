@@ -4,8 +4,8 @@ import {
   FlatList,
   ListRenderItemInfo,
   StyleSheet,
-  Text,
-  View
+  View,
+  ActivityIndicator
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,31 +24,35 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.client.clients
   );
 
-  const user = useSelector((state: ApplicationState) => state.auth.user);
-
-  console.log('User:', user);
+  const isChanging = useSelector(
+    (state: ApplicationState) => state.client.isChanging
+  );
 
   useEffect(() => {
     dispatch(getClients());
   }, []);
 
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={clients}
-        renderItem={renderListItem}
-        keyExtractor={renderKey}
-      />
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button title="Add client" onPress={onAddClient} />
-        </View>
-        <View style={styles.button}>
-          <Button title="Logout" onPress={onLogout} />
+  if (isChanging) {
+    return <ActivityIndicator size="large" />;
+  } else {
+    return (
+      <View style={styles.container}>
+        <FlatList
+          data={clients}
+          renderItem={renderListItem}
+          keyExtractor={renderKey}
+        />
+        <View style={styles.buttonView}>
+          <View style={styles.button}>
+            <Button title="Add client" onPress={onAddClient} />
+          </View>
+          <View style={styles.button}>
+            <Button title="Logout" onPress={onLogout} />
+          </View>
         </View>
       </View>
-    </View>
-  );
+    );
+  }
 
   function renderKey(client: Client) {
     return client.id;

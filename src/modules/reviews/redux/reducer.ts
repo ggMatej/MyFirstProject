@@ -28,6 +28,7 @@ export const reviewReducer = (
     case ReviewType.Add:
       return {
         ...state,
+        isChanging: false,
         reviews: [...state.reviews, action.payload.review]
       };
     case ReviewType.GetAll:

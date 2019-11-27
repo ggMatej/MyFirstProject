@@ -8,6 +8,8 @@ import { ClientAction } from './actions';
 
 // Tu imam problem jer klijent se doda bez id.a
 export const addClient = (client: Client) => async (dispatch: Dispatch) => {
+  dispatch(ClientAction.change());
+
   firebase
     .firestore()
     .collection(FirebaseCollection.Clients)
@@ -17,7 +19,7 @@ export const addClient = (client: Client) => async (dispatch: Dispatch) => {
 };
 
 export const getClients = () => async (dispatch: Dispatch) => {
-  // dispatch(ClientAction.change());
+  dispatch(ClientAction.change());
   firebase
     .firestore()
     .collection(FirebaseCollection.Clients)
