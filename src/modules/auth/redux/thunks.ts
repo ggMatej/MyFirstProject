@@ -13,7 +13,6 @@ export const setUser = (user?: FirebaseAuthTypes.User) => async (
 };
 
 export const logout = () => async (dispatch: Dispatch) => {
-  dispatch(AuthAction.change());
   firebase.auth().signOut();
   dispatch(AuthAction.logout());
 };

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logout } from 'modules/auth';
 import { Client, ClientItem, getClients } from 'modules/clients';
 import { ApplicationState } from 'modules/store';
+import { firebase } from '@react-native-firebase/auth';
 
 import { AppRoute } from '..';
 
@@ -27,6 +28,8 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
   const isChanging = useSelector(
     (state: ApplicationState) => state.client.isChanging
   );
+
+  if (!firebase.auth().currentUser) navigation.navigate(AppRoute.Login);
 
   useEffect(() => {
     dispatch(getClients());
