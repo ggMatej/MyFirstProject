@@ -1,18 +1,11 @@
 import React, { useEffect } from 'react';
-import {
-  Button,
-  FlatList,
-  ListRenderItemInfo,
-  StyleSheet,
-  View,
-  ActivityIndicator
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from 'modules/auth';
 import { Client, ClientItem, getClients } from 'modules/clients';
 import { ApplicationState } from 'modules/store';
 import { firebase } from '@react-native-firebase/auth';
+import { AppColor } from 'modules/design';
 
 import { AppRoute } from '..';
 
@@ -25,37 +18,22 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     (state: ApplicationState) => state.client.clients
   );
 
-  const isChanging = useSelector(
-    (state: ApplicationState) => state.client.isChanging
-  );
-
   if (!firebase.auth().currentUser) navigation.navigate(AppRoute.Login);
 
   useEffect(() => {
     dispatch(getClients());
+    navigation.setParams({ addClient });
   }, []);
 
-  if (isChanging) {
-    return <ActivityIndicator size="large" />;
-  } else {
-    return (
-      <View style={styles.container}>
-        <FlatList
-          data={clients}
-          renderItem={renderListItem}
-          keyExtractor={renderKey}
-        />
-        <View style={styles.buttonView}>
-          <View style={styles.button}>
-            <Button title="Add client" onPress={onAddClient} />
-          </View>
-          <View style={styles.button}>
-            <Button title="Logout" onPress={onLogout} />
-          </View>
-        </View>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={clients}
+        renderItem={renderListItem}
+        keyExtractor={renderKey}
+      />
+    </View>
+  );
 
   function renderKey(client: Client) {
     return client.id;
@@ -69,61 +47,15 @@ export const ClientScreen: React.FC<NavigationStackScreenProps> = ({
     navigation.navigate(AppRoute.ClientDetails, { client });
   }
 
-  function onAddClient() {
+  function addClient() {
     navigation.navigate(AppRoute.AddClient);
-  }
-
-  // NIsam siguran jel ovo dobro?
-  function onLogout() {
-    dispatch(logout());
-    navigation.navigate(AppRoute.Login);
   }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
-    justifyContent: 'flex-end',
-    alignItems: 'center'
-  },
-  input: {
-    backgroundColor: '#cccccc',
-    borderStyle: 'solid',
-    borderRadius: 10,
-    margin: 5,
-    textAlign: 'center'
-  },
-  button: {
-    margin: 5
-  },
-  buttonView: {
-    width: '40%',
-    margin: 5
-  },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
-  },
-  error: {
-    color: 'red',
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-  item: {
-    backgroundColor: '#cccccc',
-    padding: 5,
-    marginVertical: 5,
-    width: 300
-  },
-  title: {
-    fontSize: 25
+    backgroundColor: AppColor.White,
+    alignItems: 'stretch'
   }
 });

@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
   View,
-  Picker
+  Picker,
+  TouchableOpacity
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
 import { ApplicationState } from 'modules/store';
 import { addProject, Project, getProjects } from 'modules/projects';
+import { AppColor } from 'modules/design';
 
 import { AppRoute } from '..';
 
@@ -24,37 +25,61 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
   const [description, setDescription] = useState('');
   const [clientId, setClientId] = useState(clients[0].id);
   const [error, setError] = useState('');
+  const [isFocusedTitle, setIsFocusedTitle] = useState(false);
+  const [isFocusedDesc, setIsFOcusedDesc] = useState(false);
 
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
+          onFocus={onTitleFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedTitle
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
+          blurOnSubmit
+          multiline={false}
           value={title}
-          placeholder="Project title"
-          style={styles.input}
+          placeholder="Title"
           onChangeText={setTitle}
+          placeholderTextColor={AppColor.SecondaryText}
         />
         <TextInput
-          style={styles.input}
+          onFocus={onDescFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedDesc
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
+          multiline={false}
+          blurOnSubmit
           value={description}
-          placeholder="Project description"
+          placeholder="Description"
           onChangeText={setDescription}
+          placeholderTextColor={AppColor.SecondaryText}
         />
       </View>
       <Text style={styles.error}>{error}</Text>
       <Picker
         selectedValue={clientId}
-        style={{ height: 50, width: 150 }}
+        style={styles.picker}
         onValueChange={setClientId}
       >
         {clients.map((item, index) => {
           return <Picker.Item label={item.name} value={item.id} key={index} />;
         })}
       </Picker>
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button color="black" title="Add project" onPress={onAddProject} />
+      <View style={styles.addProjectButtonView}>
+        <View style={styles.projectButton}>
+          <TouchableOpacity style={styles.projectButton} onPress={onAddProject}>
+            <Text style={styles.projectButtonText}>Add project</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -69,43 +94,62 @@ export const AddProjectScreen: React.FC<NavigationStackScreenProps> = ({
     dispatch(getProjects());
     navigation.navigate(AppRoute.Projects);
   }
+  function onTitleFocusChange() {
+    setIsFocusedTitle(true);
+  }
+
+  function onDescFocusChange() {
+    setIsFOcusedDesc(true);
+  }
+
+  function onEndEditing() {
+    setIsFOcusedDesc(false);
+    setIsFocusedTitle(false);
+  }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
+    backgroundColor: AppColor.White,
     justifyContent: 'center',
     alignItems: 'center'
   },
+  inputView: {
+    width: '80%'
+  },
   input: {
-    backgroundColor: '#cccccc',
-    borderStyle: 'solid',
+    color: AppColor.PrimaryText,
+    borderWidth: 2,
     borderRadius: 10,
     margin: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 5
   },
-  button: {
-    margin: 5
+  addProjectButtonView: {
+    width: '90%'
   },
-  buttonView: {
-    width: '40%',
-    margin: 5
+  projectButton: {
+    backgroundColor: AppColor.Primary,
+    padding: 5,
+    borderRadius: 30,
+    alignItems: 'center'
   },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
+  projectButtonText: {
+    color: 'white',
+    fontWeight: 'bold'
   },
   error: {
-    color: 'red',
     margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
+    color: 'red',
+    fontStyle: 'italic'
+  },
+  picker: {
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 5,
+    padding: 5,
+    width: '30%'
   }
 });

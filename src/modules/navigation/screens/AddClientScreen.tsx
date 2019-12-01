@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch } from 'react-redux';
 import { addClient, Client, getClients } from 'modules/clients';
 import { validateEmail } from 'modules/common/index.';
+import { AppColor } from 'modules/design';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 import { AppRoute } from '..';
 
@@ -13,29 +15,54 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [error, setError] = useState('');
+  const [isFocusedEmail, setIsFocusedEmail] = useState(false);
+  const [isFocusedName, setIsFocusedName] = useState(false);
 
   const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
+          onFocus={onEmailFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedEmail
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
+          blurOnSubmit
+          multiline={false}
+          autoCapitalize="none"
           keyboardType="email-address"
           value={email}
           placeholder="Email"
-          style={styles.input}
           onChangeText={setEmail}
+          placeholderTextColor={AppColor.SecondaryText}
         />
         <TextInput
-          style={styles.input}
+          onFocus={onPasswordFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedName
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
+          multiline={false}
+          blurOnSubmit
           value={name}
-          placeholder="name"
+          placeholder="Name"
           onChangeText={setName}
+          placeholderTextColor={AppColor.SecondaryText}
         />
       </View>
       <Text style={styles.error}>{error}</Text>
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button color="black" title="Add client" onPress={onAddClient} />
+      <View style={styles.addClientButtonView}>
+        <View style={styles.clientButton}>
+          <TouchableOpacity style={styles.clientButton} onPress={onAddClient}>
+            <Text style={styles.clientButtonText}>Add client</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -52,43 +79,56 @@ export const AddClientScreen: React.FC<NavigationStackScreenProps> = ({
       navigation.navigate(AppRoute.Clients);
     }
   }
+
+  function onEmailFocusChange() {
+    setIsFocusedEmail(true);
+  }
+
+  function onPasswordFocusChange() {
+    setIsFocusedName(true);
+  }
+
+  function onEndEditing() {
+    setIsFocusedEmail(false);
+    setIsFocusedName(false);
+  }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
+    backgroundColor: AppColor.White,
     justifyContent: 'center',
     alignItems: 'center'
   },
+  inputView: {
+    width: '80%'
+  },
   input: {
-    backgroundColor: '#cccccc',
-    borderStyle: 'solid',
+    color: AppColor.PrimaryText,
+    borderWidth: 2,
     borderRadius: 10,
     margin: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 5
   },
-  button: {
-    margin: 5
+  addClientButtonView: {
+    width: '90%'
   },
-  buttonView: {
-    width: '40%',
-    margin: 5
+  clientButton: {
+    backgroundColor: AppColor.Primary,
+    padding: 5,
+    borderRadius: 30,
+    alignItems: 'center'
   },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
+  clientButtonText: {
+    color: 'white',
+    fontWeight: 'bold'
   },
   error: {
-    color: 'red',
     margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
+    color: 'red',
+    fontStyle: 'italic'
   }
 });

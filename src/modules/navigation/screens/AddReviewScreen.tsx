@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableOpacity
+} from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { sendEmail } from 'modules/common/index.';
 import { Project } from 'modules/projects';
@@ -9,6 +16,7 @@ import { createSelector } from 'reselect';
 import { addReview, Review } from 'modules/reviews';
 
 import { AppRoute } from '../const/app-routes';
+import { AppColor } from 'modules/design';
 
 export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -16,6 +24,8 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
   const [title, setTitle] = useState('');
   const [review, setReview] = useState('');
   const [error, setError] = useState('');
+  const [isFocusedTitle, setIsFocusedTitle] = useState(false);
+  const [isFocusedReview, setIsFocuesdReview] = useState(false);
 
   const project: Project = navigation.getParam('project');
 
@@ -32,26 +42,45 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
     <View style={styles.container}>
       <View style={styles.inputView}>
         <TextInput
-          keyboardType="email-address"
+          onFocus={onTitleFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedTitle
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
+          blurOnSubmit
+          multiline={false}
           value={title}
           placeholder="Title"
-          style={styles.input}
           onChangeText={setTitle}
+          placeholderTextColor={AppColor.SecondaryText}
         />
         <TextInput
+          onFocus={onReviewFocusChange}
+          onEndEditing={onEndEditing}
+          style={[
+            styles.input,
+            isFocusedReview
+              ? { borderColor: AppColor.DarkPrimary }
+              : { borderColor: AppColor.LightPrimary }
+          ]}
           multiline={true}
           numberOfLines={15}
-          style={styles.input}
+          blurOnSubmit
           value={review}
           placeholder="Review"
           onChangeText={setReview}
+          placeholderTextColor={AppColor.SecondaryText}
         />
       </View>
-
       <Text style={styles.error}>{error}</Text>
-      <View style={styles.buttonView}>
-        <View style={styles.button}>
-          <Button color="black" title="Send mail" onPress={onSendMail} />
+      <View style={styles.sendEmailButtonView}>
+        <View style={styles.sendEmailButton}>
+          <TouchableOpacity style={styles.sendEmailButton} onPress={onSendMail}>
+            <Text style={styles.emailButtonText}>Send email</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -68,43 +97,63 @@ export const ReviewScreen: React.FC<NavigationStackScreenProps> = ({
         dispatch(addReview(new Review(title, review, project.id)));
     });
   }
+
+  function onTitleFocusChange() {
+    setIsFocusedTitle(true);
+  }
+
+  function onReviewFocusChange() {
+    setIsFocuesdReview(true);
+  }
+
+  function onEndEditing() {
+    setIsFocuesdReview(false);
+    setIsFocusedTitle(false);
+  }
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
+    backgroundColor: AppColor.White,
     justifyContent: 'center',
     alignItems: 'center'
   },
+  inputView: {
+    width: '80%'
+  },
   input: {
-    backgroundColor: '#cccccc',
-    borderStyle: 'solid',
+    color: AppColor.PrimaryText,
+    borderWidth: 2,
     borderRadius: 10,
     margin: 5,
-    textAlign: 'center'
+    textAlign: 'center',
+    padding: 5
   },
-  button: {
-    margin: 5
+  sendEmailButtonView: {
+    width: '90%'
   },
-  buttonView: {
-    width: '40%',
-    margin: 5
+  sendEmailButton: {
+    backgroundColor: AppColor.Primary,
+    padding: 5,
+    borderRadius: 30,
+    alignItems: 'center'
   },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
+  emailButtonText: {
+    color: 'white',
+    fontWeight: 'bold'
   },
   error: {
-    color: 'red',
     margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
+    color: 'red',
+    fontStyle: 'italic'
+  },
+  picker: {
+    borderWidth: 2,
+    borderRadius: 10,
+    margin: 5,
+    padding: 5,
+    width: '30%'
   }
 });

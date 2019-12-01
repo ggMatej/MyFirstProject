@@ -5,8 +5,7 @@ import {
   View,
   Button,
   FlatList,
-  ListRenderItemInfo,
-  ActivityIndicator
+  ListRenderItemInfo
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Project } from 'modules/projects';
@@ -16,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getReviews, Review, ReviewItem } from 'modules/reviews';
 
 import { AppRoute } from '../const/app-routes';
+import { AppColor } from 'modules/design';
 
 export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -31,33 +31,42 @@ export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   const projectReviews = useSelector(projectReviewsSelector);
-  const isChanging = useSelector(
-    (state: ApplicationState) => state.review.isChanging
-  );
 
   useEffect(() => {
     dispatch(getReviews());
+    navigation.setParams({ onMakeReview });
   }, []);
 
-  if (isChanging) {
-    return <ActivityIndicator size="large" />;
-  } else {
+  if (!projectReviews.length) {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>{project.title}</Text>
-        <Text>{project.description}</Text>
-        <Text>Project reviews:</Text>
-        <FlatList
-          data={projectReviews}
-          renderItem={renderListItem}
-          keyExtractor={renderKey}
-        />
-        <View style={styles.button}>
-          <Button color="black" title="Make review" onPress={onMakeReview} />
+        <View style={styles.descriptionContainer}>
+          <Text style={{ fontSize: 20 }}>Description: </Text>
+          <Text style={{ fontStyle: 'italic' }}>{project.description}</Text>
+        </View>
+        <Text style={{ margin: 10, fontSize: 20 }}>Project reviews:</Text>
+        <View style={styles.noProjects}>
+          <Text style={styles.text}>This project has no reviews!</Text>
         </View>
       </View>
     );
   }
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{project.title}</Text>
+      <View style={styles.descriptionContainer}>
+        <Text style={{ fontSize: 20 }}>Description: </Text>
+        <Text style={{ fontStyle: 'italic' }}>{project.description}</Text>
+      </View>
+      <Text style={{ margin: 10, fontSize: 20 }}>Project reviews:</Text>
+      <FlatList
+        data={projectReviews}
+        renderItem={renderListItem}
+        keyExtractor={renderKey}
+      />
+    </View>
+  );
 
   function onMakeReview() {
     navigation.navigate(AppRoute.Reviews, { project });
@@ -79,40 +88,28 @@ export const ProjectDetailsScreen: React.FC<NavigationStackScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
-    justifyContent: 'flex-start',
-    alignItems: 'center'
-  },
-  button: {
-    margin: 5
-  },
-  buttonView: {
-    width: '40%',
-    margin: 5
-  },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
-  },
-  error: {
-    color: 'red',
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-  item: {
-    backgroundColor: '#cccccc',
-    padding: 5,
-    marginVertical: 5,
-    width: 300
+    backgroundColor: AppColor.White,
+    justifyContent: 'flex-start'
   },
   title: {
-    fontSize: 25
+    alignSelf: 'center',
+    color: AppColor.PrimaryText,
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 10
+  },
+  text: {
+    color: AppColor.PrimaryText,
+    fontSize: 15,
+    alignSelf: 'center',
+    fontStyle: 'italic'
+  },
+  noProjects: {
+    flex: 2,
+    justifyContent: 'center'
+  },
+  descriptionContainer: {
+    flex: 1,
+    margin: 10
   }
 });

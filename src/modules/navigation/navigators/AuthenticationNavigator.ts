@@ -1,4 +1,5 @@
 import { createStackNavigator } from 'react-navigation-stack';
+import { AppColor } from 'modules/design';
 
 import { AppRoute } from '../const/app-routes';
 import { LoginScreen } from '../screens/LoginScreen';
@@ -9,26 +10,27 @@ export const AuthenticationNavigator = createStackNavigator(
     [AppRoute.Login]: {
       screen: LoginScreen,
       navigationOptions: {
-        title: 'Login'
+        headerTitle: 'LOGIN'
       }
     },
     [AppRoute.Registration]: {
       screen: RegistrationScreen,
       navigationOptions: {
-        title: 'Register'
+        headerTitle: 'REGISTRATION'
       }
     }
   },
   {
     defaultNavigationOptions: {
       headerStyle: {
-        backgroundColor: 'black'
+        backgroundColor: AppColor.White,
+        borderBottomWidth: 2,
+        borderBottomColor: AppColor.LightPrimary
       },
       headerTitleStyle: {
-        color: 'white',
         fontWeight: 'bold'
       },
-      headerLeft: null
+      headerTintColor: AppColor.DarkPrimary
     }
   }
 );

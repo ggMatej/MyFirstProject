@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { Review } from 'modules/reviews';
+import { AppColor } from 'modules/design';
 
 export const ReviewDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   navigation
@@ -11,7 +12,9 @@ export const ReviewDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{review.title}</Text>
-      <Text>{review.body}</Text>
+      <View style={styles.descriptionContainer}>
+        <Text style={{ fontStyle: 'italic' }}>{review.body}</Text>
+      </View>
     </View>
   );
 };
@@ -19,40 +22,28 @@ export const ReviewDetailsScreen: React.FC<NavigationStackScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
-    justifyContent: 'flex-start',
-    alignItems: 'center'
-  },
-  button: {
-    margin: 5
-  },
-  buttonView: {
-    width: '40%',
-    margin: 5
-  },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
-  },
-  error: {
-    color: 'red',
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-  item: {
-    backgroundColor: '#cccccc',
-    padding: 5,
-    marginVertical: 5,
-    width: 300
+    backgroundColor: AppColor.White,
+    justifyContent: 'flex-start'
   },
   title: {
-    fontSize: 25
+    alignSelf: 'center',
+    color: AppColor.PrimaryText,
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 10
+  },
+  text: {
+    color: AppColor.PrimaryText,
+    fontSize: 15,
+    alignSelf: 'center',
+    fontStyle: 'italic'
+  },
+  noProjects: {
+    flex: 2,
+    justifyContent: 'center'
+  },
+  descriptionContainer: {
+    flex: 1,
+    margin: 10
   }
 });

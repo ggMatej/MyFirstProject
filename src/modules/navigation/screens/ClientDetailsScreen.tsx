@@ -4,8 +4,7 @@ import {
   ListRenderItemInfo,
   StyleSheet,
   Text,
-  View,
-  ActivityIndicator
+  View
 } from 'react-native';
 import { NavigationStackScreenProps } from 'react-navigation-stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +12,7 @@ import { Client } from 'modules/clients';
 import { Project, getProjects, ProjectItem } from 'modules/projects';
 import { ApplicationState } from 'modules/store';
 import { createSelector } from 'reselect';
+import { AppColor } from 'modules/design';
 
 import { AppRoute } from '../const/app-routes';
 
@@ -30,9 +30,6 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   );
 
   const clientProjects = useSelector(clientProjectsSelector);
-  const isChanging = useSelector(
-    (state: ApplicationState) => state.project.isChanging
-  );
 
   useEffect(() => {
     dispatch(getProjects());
@@ -41,12 +38,16 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
   if (!clientProjects.length) {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Projects with {client.name}:</Text>
-        <Text>This client has no projects!</Text>
+        <View>
+          <Text style={styles.title}>Projects with {client.name}:</Text>
+        </View>
+        <View style={styles.noProjects}>
+          <Text style={styles.text}>
+            You have no projects with this client!
+          </Text>
+        </View>
       </View>
     );
-  } else if (isChanging) {
-    return <ActivityIndicator size="large" />;
   } else {
     return (
       <View style={styles.container}>
@@ -76,40 +77,23 @@ export const ClientDetailsScreen: React.FC<NavigationStackScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#d9d9d9',
-    justifyContent: 'flex-start',
-    alignItems: 'center'
-  },
-  button: {
-    margin: 5
-  },
-  buttonView: {
-    width: '40%',
-    margin: 5
-  },
-  inputView: {
-    width: '70%',
-    margin: 10
-  },
-  text: {
-    color: 'black',
-    margin: 5
-  },
-  error: {
-    color: 'red',
-    margin: 5,
-    fontWeight: 'bold',
-    fontSize: 15,
-    textAlign: 'center'
-  },
-  item: {
-    backgroundColor: '#cccccc',
-    padding: 5,
-    marginVertical: 5,
-    width: 300
+    backgroundColor: AppColor.White,
+    justifyContent: 'flex-start'
   },
   title: {
-    fontSize: 25
+    color: AppColor.PrimaryText,
+    fontSize: 20,
+    marginLeft: 10,
+    marginTop: 10
+  },
+  text: {
+    color: AppColor.PrimaryText,
+    fontSize: 15,
+    alignSelf: 'center',
+    fontStyle: 'italic'
+  },
+  noProjects: {
+    flex: 2,
+    justifyContent: 'center'
   }
 });
