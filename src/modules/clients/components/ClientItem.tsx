@@ -5,7 +5,6 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Text } from 'react-native';
 
 import { Client } from '..';
-import { App } from 'App';
 
 interface Props {
   client: Client;
