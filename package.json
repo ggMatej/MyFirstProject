@@ -13,7 +13,7 @@
     "node-pre-gyp": "^0.14.0",
     "react": "16.8.6",
     "react-dom": "^16.11.0",
-    "react-native": "0.60.5",
+    "react-native": "0.62.3",
     "react-native-elements": "^1.2.7",
     "react-native-fbsdk": "^1.0.4",
     "react-native-firebase": "^5.5.6",
